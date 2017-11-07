@@ -1,14 +1,16 @@
+
+const sha1 = require('sha1')
+
 const admins = deps => {
 	return {
 		all: () => {
 			return new Promise((resolve, reject)=>{
 			const { connection, errorHandler } = deps
-				connection.query('Select * from tb_admins',(error,results)=>{
+				connection.query('Select idtb_admins, nome, email, excluido from tb_admins',(error,results)=>{
 					if(error){
 						errorHandler(error,'Falha ao listar os admins', reject)
 						return false
 					}
-					console.log(results)
 					resolve({admins: results})
 				})
 			})			
@@ -17,15 +19,57 @@ const admins = deps => {
 		item: (id) => {
 			return new Promise((resolve, reject)=>{
 			const { connection, errorHandler } = deps
-				connection.query('Select * from tb_admins Where idtb_admins = ?',[id],(error,results)=>{
+				connection.query('Select idtb_admins, nome, email, excluido from tb_admins Where idtb_admins = ?',[id],(error,results)=>{
 					if(error){
 						errorHandler(error,'lalalalalalalal', reject)
 						return false
 					}
-					console.log(results)
 					resolve({admins: results})
 				})
 			})			
+		},
+		save: (nome,senha,email,excluido) => {
+			return new Promise((resolve, reject)=>{
+			const { connection, errorHandler } = deps				
+				connection.query('Insert Into tb_admins (nome,senha,email,excluido) Values(?,?,?,?)',[nome,sha1(senha),email,excluido],(error,results)=>{
+					if(error){
+						errorHandler(error,'Falha ao salvar', reject)
+						return false
+					}
+					resolve({admins: {nome,email,excluido, id: results.insertId}})
+				})
+				
+			})	
+		},
+		update: (idtb_admins,nome,senha,email,excluido) => {
+			return new Promise((resolve, reject)=>{
+			const { connection, errorHandler } = deps				
+				connection.query('Update tb_admins set nome = ?, senha = ?, email = ?, excluido = ? Where idtb_admins = ?',[nome,sha1(senha),email,excluido,idtb_admins],(error,results)=>{
+
+					if(error || !results.affectedRows){
+						errorHandler(error,'Falha ao atualizar', reject)
+						return false
+					}
+					
+					resolve({admins: {idtb_admins,nome,email,excluido}, affectedRows: results.affectedRows})
+				})
+				
+			})	
+		},
+ 
+	  	del: (idtb_admins) => {
+				return new Promise((resolve, reject)=>{
+				const { connection, errorHandler } = deps				
+					connection.query('Delete From tb_admins Where idtb_admins = ?',[idtb_admins],(error,results)=>{
+						if(error || !results.affectedRows){
+							errorHandler(error,'Falha ao remover', reject)
+							return false
+						}
+						resolve({message: 'Removido com sucesso', affectedRows: results.affectedRows})
+					})
+					
+				})	
+	
 		}
 
 	}

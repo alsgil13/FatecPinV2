@@ -1,10 +1,10 @@
 const mysqlServer = require('mysql')
 
 const connection = mysqlServer.createConnection({
-	host: 'localhost',
-	user: 'root',
-	password: 'talita150115',
-	database: 'fatecpin'
+	host: process.env.MYSQL_HOST,
+	user:process.env.MYSQL_USER,
+	password: process.env.MYSQL_PASSWORD,
+	database: process.env.MYSQL_DATABASE
 
 })
 
@@ -19,6 +19,8 @@ const empresasModule = require('./empresas')({ connection, errorHandler })
 const eventosModule = require('./eventos')({ connection, errorHandler })
 const pinsModule = require('./pins')({ connection, errorHandler })
 const adminsModule = require('./admins')({ connection, errorHandler })
+const authModule = require('./auth')({ connection, errorHandler })
+
 
 module.exports = {
 	noticias: () => noticiasModule,
@@ -26,6 +28,7 @@ module.exports = {
 	eventos: () => eventosModule,
 	pins: () => pinsModule,
 	admins: () => adminsModule,
-	empresas: () => empresasModule
+	empresas: () => empresasModule,
+	auth: () => authModule
 
 }

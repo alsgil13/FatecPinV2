@@ -23,7 +23,6 @@ const noticias = deps => {
 						errorHandler(error,'lalalalalalalal', reject)
 						return false
 					}
-					console.log(results)
 					resolve({noticia: results})
 				})
 			})			
@@ -43,7 +42,7 @@ const noticias = deps => {
 			})	
 		},
 		
-		update: (id_tbnoticias,tb_admins_idtb_admins, titulo, texto, data_postagem, excluido) => {
+		update: (id_tbnoticias,tb_admins_idtb_admins, titulo, texto, data_postagem, imagem ,excluido) => {
 			return new Promise((resolve, reject)=>{
 			const { connection, errorHandler } = deps				
 				connection.query('Update tb_noticias set tb_admins_idtb_admins = ?, titulo = ?, texto = ?, data_postagem = ?, excluido = ? Where idtb_noticias = ?',[tb_admins_idtb_admins, titulo, texto, data_postagem, excluido, id_tbnoticias],(error,results)=>{
@@ -52,7 +51,7 @@ const noticias = deps => {
 						errorHandler(error,'Falha ao atualizar', reject)
 						return false
 					}
-					console.log(id_tbnoticias)
+					
 					resolve({noticias: {tb_admins_idtb_admins, titulo, texto, data_postagem, excluido, id_tbnoticias}, affectedRows: results.affectedRows})
 				})
 				
