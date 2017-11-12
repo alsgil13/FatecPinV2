@@ -42,17 +42,17 @@ const noticias = deps => {
 			})	
 		},
 		
-		update: (id_tbnoticias,tb_admins_idtb_admins, titulo, texto, data_postagem, imagem ,excluido) => {
+		update: (idtb_noticias,tb_admins_idtb_admins, titulo, texto, data_postagem, imagem ,excluido) => {
 			return new Promise((resolve, reject)=>{
 			const { connection, errorHandler } = deps				
-				connection.query('Update tb_noticias set tb_admins_idtb_admins = ?, titulo = ?, texto = ?, data_postagem = ?, excluido = ? Where idtb_noticias = ?',[tb_admins_idtb_admins, titulo, texto, data_postagem, excluido, id_tbnoticias],(error,results)=>{
+				connection.query('Update tb_noticias set tb_admins_idtb_admins = ?, titulo = ?, texto = ?, data_postagem = ?, imagem = ?, excluido = ? Where idtb_noticias = ?',[tb_admins_idtb_admins, titulo, texto, data_postagem, imagem, excluido, idtb_noticias],(error,results)=>{
 
 					if(error || !results.affectedRows){
 						errorHandler(error,'Falha ao atualizar', reject)
 						return false
 					}
 					
-					resolve({noticias: {tb_admins_idtb_admins, titulo, texto, data_postagem, excluido, id_tbnoticias}, affectedRows: results.affectedRows})
+					resolve({noticias: {tb_admins_idtb_admins, titulo, texto, data_postagem, excluido, idtb_noticias}, affectedRows: results.affectedRows})
 				})
 				
 			})	

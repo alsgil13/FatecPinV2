@@ -5,7 +5,6 @@ const auth = require('../auth')({ connection, errorHandler })
 
 const create = () => admins.save('nome-admins','senha','admin@root.com',0)
 
-
 test.beforeEach(t => connection.query('truncate table tb_admins'))
 test.after.always(t => connection.query('truncate table tb_admins'))
 
@@ -23,3 +22,4 @@ test('Login - Falha', async t => {
 	t.is(error.error, 'Falha ao efetuar login')
 
 })
+ 
