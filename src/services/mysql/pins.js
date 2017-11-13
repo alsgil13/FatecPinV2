@@ -4,11 +4,12 @@ const pins = deps => {
 		all: () => {
 			return new Promise((resolve, reject)=>{
 			const { connection, errorHandler } = deps
-				connection.query('Select * from tb_pins',(error,results)=>{
+				connection.query('Select p.id from tb_pins as p JOIN tb_admins as ad ON p.id = ad.id',(error,results)=>{
 					if(error){
 						errorHandler(error,'Falha ao listar os pins', reject)
 						return false
 					}
+					console.log(results);
 					resolve({pins: results})
 				})
 			})			

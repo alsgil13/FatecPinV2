@@ -2,7 +2,7 @@ const test = require('ava')
 const { connection, errorHandler } = require('./setup')
 const eventos = require('../eventos')({ connection, errorHandler })
 
-const create = () => eventos.save(1, 'titulo','texto','2017-10-29 11:18:00','2017-10-29 11:18:00','local','link',0)
+const create = () => eventos.save(1, 'titulo','texto','2017-10-29 11:18:00','2017-10-29 11:18:00','local',0)
 
 test.beforeEach(t => connection.query('truncate table tb_eventos'))
 //test.after.always(t => connection.query('truncate table tb_eventos'))
@@ -27,7 +27,7 @@ test('Item único Eventos', async t => {
 
 test('Atualização de Eventos', async t => {
 	await create()
-	const updated = await eventos.update(1,1, 'novo-titulo','novo-texto','2017-10-29 11:18:00','2017-10-29 11:18:00','local','link',0)
+	const updated = await eventos.update(1,1, 'novo-titulo','novo-texto','2017-10-29 11:18:00','2017-10-29 11:18:00','local',0)
 	t.is(updated.eventos.titulo, 'novo-titulo')
 	t.is(updated.affectedRows, 1)
 })
