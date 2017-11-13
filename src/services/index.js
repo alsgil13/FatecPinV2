@@ -1,3 +1,5 @@
+/*
+
 const mysqlServer = require('mysql')
 
 const connection = mysqlServer.createConnection({
@@ -8,7 +10,6 @@ const connection = mysqlServer.createConnection({
 
 })
 
-/*
 const noticias = connection.query('Select * from tb_noticias',(error,results)=>{
 	if(error){
 
@@ -16,6 +17,6 @@ const noticias = connection.query('Select * from tb_noticias',(error,results)=>{
 
 	return { noticias: results}
 })
-*/
 
 module.exports = noticias
+*/
