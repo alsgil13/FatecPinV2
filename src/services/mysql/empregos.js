@@ -6,10 +6,13 @@ const empregos = deps => {
 			return new Promise((resolve, reject)=>{
 
 			const queryEmpregos = 
-			'Select emp.idtb_empregos as id, ' +
+			'Select idtb_empregos as id, titulo,texto, data_postagem, link_vaga, tb_empregos.excluido as emprego_excluido, ' +
+			' tb_admins.idtb_admins as id_admin, tb_admins.nome as admin_nome, tb_admins.email as email_admin,' +
+			' tb_empresas.idtb_empresas as id_empresa, tb_empresas.nome as nome_empresa, tb_empresas.email as email_empresa, cidade, estado ' +
 			 'from tb_empregos '+
 			 'JOIN tb_admins ON tb_empregos.tb_admins_idtb_admins = tb_admins.idtb_admins '+
 			 'JOIN tb_empresas ON tb_empregos.tb_empresa_idtb_empresa = tb_empresas.idtb_empresas' 	
+			console.log(queryEmpregos)
 			const { connection, errorHandler } = deps
 				connection.query(queryEmpregos,(error,results)=>{
 					if(error){
@@ -21,26 +24,35 @@ const empregos = deps => {
 						var result = results[index]
 						resultado ={						
 						
-							'id' : result.idtb_empregos,
+							'id' : result.id,
 							'titulo' : result.titulo,
 							'texto' : result.texto,
 							'data_postagem': result.data_postagem,
 							'link_vaga': result.link_vaga,
 							'local_evento': result.local_evento,
 							'link_evento': result.link_evento,
-							'excluido': result.excluido,
+							'excluido': result.emprego_excluido,
 							'admins' : {
-								'id' : result.idtb_admins,
-								'nome' : result.nome,
-								'email': result.email
+								'id' : result.id_admin,
+								'nome' : result.admin_nome,
+								'email': result.email_admin
+							},
+							'empresa':{
+								'id' : result.id_empresa,
+								'nome':result.nome_empresa,
+								'email':result.email_empresa,
+								'cidade':result.cidade,
+								'estado':result.estado
+
 							}
+
 
 						}
 						final.push(resultado)						
 					}
 
 
-					resolve({empregos: results})
+					resolve({empregos: final})
 				})
 			})			
 		},
