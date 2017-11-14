@@ -5,9 +5,10 @@ const eventos = deps => {
 			const { connection, errorHandler } = deps
 				const queryEventos = 'Select ev.idtb_eventos as id, ev.titulo, ev.texto, ev.data_postagem, '+
 				'ev.data_evento, ev.local_evento, ev.link_evento,ev.excluido, ad.* from tb_eventos as ev '+
-				'LEFT JOIN tb_admins as ad ON ev.idtb_eventos = ad.idtb_admins'
+				'JOIN tb_admins as ad ON ev.tb_admins_idtb_admins = ad.idtb_admins ' + 
+				'WHERE ev.excluido = 0'
 				
-				connection.query('Select ev.idtb_eventos as id, ev.titulo, ev.texto, ev.data_postagem, ev.data_evento, ev.local_evento, ev.link_evento,ev.excluido, ad.* from tb_eventos as ev LEFT JOIN tb_admins as ad ON ev.idtb_eventos = ad.idtb_admins',(error,results)=>{
+				connection.query(queryEventos,(error,results)=>{
 					if(error){
 						errorHandler(error,'Falha ao listar as eventos', reject)
 						return false

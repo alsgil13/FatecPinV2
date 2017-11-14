@@ -12,8 +12,10 @@ const pins = deps => {
 					FROM tb_pins as p
 					JOIN tb_admins as ad
 					ON p.tb_admins_idtb_admins = ad.idtb_admins
+					WHERE p.excluido = 0
 					ORDER BY idtb_pins DESC
 					LIMIT ?,?
+
 				`, [start,limit], (error,results)=>{
 					if(error){
 						errorHandler(error,'Falha ao listar os pins', reject)

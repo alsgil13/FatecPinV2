@@ -7,7 +7,10 @@ const noticias = deps => {
 			
 			const { connection, errorHandler } = deps
 				//LEFT JOIN ???			
-				connection.query('Select n.idtb_noticias as id, n.titulo, n.texto, n.data_postagem, n.imagem, n.excluido, ad.* from tb_noticias as n LEFT JOIN tb_admins as ad ON n.idtb_noticias = ad.idtb_admins',(error,results)=>{
+				connection.query('Select n.idtb_noticias as id, n.titulo, n.texto, '+
+					'n.data_postagem, n.imagem, n.excluido, ad.* from tb_noticias as n '+
+					'JOIN tb_admins as ad ON n.tb_admins_idtb_admins = ad.idtb_admins ' + 
+					'WHERE n.excluido = 0',(error,results)=>{
 					if(error){
 						errorHandler(error,'Falha ao listar as noticias', reject)
 						return false
