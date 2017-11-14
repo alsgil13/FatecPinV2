@@ -7,9 +7,9 @@ const pins = deps => {
 				connection.query(`
 					SELECT p.*, ad.*
 					FROM tb_pins as p
-						JOIN tb_admins as ad
-						ON p.tb_admins_idtb_admins = ad.idtb_admins
-					`,(error,results)=>{
+					JOIN tb_admins as ad
+					ON p.tb_admins_idtb_admins = ad.idtb_admins
+				`, (error,results)=>{
 					if(error){
 						errorHandler(error,'Falha ao listar os pins', reject)
 						return false
