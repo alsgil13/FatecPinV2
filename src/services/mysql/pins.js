@@ -18,7 +18,7 @@ const pins = deps => {
 					for(index in results){
 						var result = results[index]
 						resultado = {		
-							'id' : result.id,
+							'id' : result.idtb_pins,
 							'descricao' : result.descricao,
 							'data_postagem': result.data_postagem,
 							'excluido': result.excluido,
