@@ -45,12 +45,37 @@ const eventos = deps => {
 		item: (id) => {
 			return new Promise((resolve, reject)=>{
 			const { connection, errorHandler } = deps
-				connection.query('Select * from tb_eventos Where idtb_eventos = ?',[id],(error,results)=>{
+				connection.query(`Select ev.idtb_eventos as id, ev.titulo, ev.texto, ev.data_postagem, 
+								ev.data_evento, ev.local_evento, ev.link_evento, ev.excluido, ad.* 
+								from tb_eventos as ev 
+								JOIN tb_admins as ad 
+								ON ev.tb_admins_idtb_admins = ad.idtb_admins
+								Where ev.idtb_eventos = ?
+				`,[id],(error,results)=>{
 					if(error){
-						errorHandler(error,'lalalalalalalal', reject)
+						errorHandler(error,'Erro ao buscar Evento', reject)
 						return false
 					}
-					resolve({eventos: results})
+						var result = results[0]
+						resultado ={						
+						
+							'id' : result.id,
+							'titulo' : result.titulo,
+							'texto' : result.texto,
+							'data_postagem': result.data_postagem,
+							'data_evento': result.data_evento,
+							'local_evento': result.local_evento,
+							'link_evento': result.link_evento,
+							'excluido': result.excluido,
+							'admins' : {
+								'id' : result.idtb_admins,
+								'nome' : result.nome,
+								'email': result.email
+							}
+
+						}
+
+					resolve({eventos: resultado})
 				})
 			})			
 		},

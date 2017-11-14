@@ -4,13 +4,15 @@ const empregos = deps => {
 			return new Promise((resolve, reject)=>{
 
 			const queryEmpregos = 
-			'Select idtb_empregos as id, titulo,texto, data_postagem, link_vaga, tb_empregos.excluido as emprego_excluido, ' +
-			' tb_admins.idtb_admins as id_admin, tb_admins.nome as admin_nome, tb_admins.email as email_admin,' +
-			' tb_empresas.idtb_empresas as id_empresa, tb_empresas.nome as nome_empresa, tb_empresas.email as email_empresa, cidade, estado ' +
-			 'from tb_empregos '+
-			 'JOIN tb_admins ON tb_empregos.tb_admins_idtb_admins = tb_admins.idtb_admins '+
-			 'JOIN tb_empresas ON tb_empregos.tb_empresa_idtb_empresa = tb_empresas.idtb_empresas ' +
-			 'WHERE tb_empregos.excluido = 0' 	
+			`SELECT idtb_empregos AS id, titulo,texto, data_postagem, 
+			link_vaga, tb_empregos.excluido AS emprego_excluido, 
+			tb_admins.idtb_admins AS id_admin, tb_admins.nome AS admin_nome, 
+			tb_admins.email AS email_admin, tb_empresas.idtb_empresas AS id_empresa, 
+			tb_empresas.nome AS nome_empresa, tb_empresas.email AS email_empresa, cidade, estado 
+			FROM tb_empregos 
+			JOIN tb_admins ON tb_empregos.tb_admins_idtb_admins = tb_admins.idtb_admins 
+			JOIN tb_empresas ON tb_empregos.tb_empresa_idtb_empresa = tb_empresas.idtb_empresas 
+			WHERE tb_empregos.excluido = 0` 	
 			console.log(queryEmpregos)
 			const { connection, errorHandler } = deps
 				connection.query(queryEmpregos,(error,results)=>{
@@ -59,13 +61,47 @@ const empregos = deps => {
 		item: (id) => {
 			return new Promise((resolve, reject)=>{
 			const { connection, errorHandler } = deps
-				connection.query('Select * from tb_empregos Where idtb_empregos = ?',[id],(error,results)=>{
+			const queryEmpregos = 
+			`SELECT idtb_empregos AS id, titulo,texto, data_postagem, 
+			link_vaga, tb_empregos.excluido AS emprego_excluido, 
+			tb_admins.idtb_admins AS id_admin, tb_admins.nome AS admin_nome, 
+			tb_admins.email AS email_admin, tb_empresas.idtb_empresas AS id_empresa, 
+			tb_empresas.nome AS nome_empresa, tb_empresas.email AS email_empresa, cidade, estado 
+			FROM tb_empregos 
+			JOIN tb_admins ON tb_empregos.tb_admins_idtb_admins = tb_admins.idtb_admins 
+			JOIN tb_empresas ON tb_empregos.tb_empresa_idtb_empresa = tb_empresas.idtb_empresas 
+			WHERE tb_empregos.idtb_empregos = ?` 	
+
+				connection.query(queryEmpregos,[id],(error,results)=>{
 					if(error){
 						errorHandler(error,'lalalalalalalal', reject)
 						return false
 					}
-					// console.log(results)
-					resolve({emprego: results})
+					var result = results[0]
+					resultado ={						
+						'id' : result.id,
+						'titulo' : result.titulo,
+						'texto' : result.texto,
+						'data_postagem': result.data_postagem,
+						'link_vaga': result.link_vaga,
+						'local_evento': result.local_evento,
+						'link_evento': result.link_evento,
+						'excluido': result.emprego_excluido,
+						'admins' : {
+							'id' : result.id_admin,
+							'nome' : result.admin_nome,
+							'email': result.email_admin
+						},
+						'empresa':{
+							'id' : result.id_empresa,
+							'nome':result.nome_empresa,
+							'email':result.email_empresa,
+							'cidade':result.cidade,
+							'estado':result.estado
+							}
+
+					}
+					resolve({emprego: resultado})
 				})
 			})			
 		},

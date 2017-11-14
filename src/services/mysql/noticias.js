@@ -45,12 +45,30 @@ const noticias = deps => {
 		item: (id) => {
 			return new Promise((resolve, reject)=>{
 			const { connection, errorHandler } = deps
-				connection.query('Select * from tb_noticias Where idtb_noticias = ?',[id],(error,results)=>{
+				connection.query('Select n.idtb_noticias as id, n.titulo, n.texto, '+
+					'n.data_postagem, n.imagem, n.excluido, ad.* from tb_noticias as n '+
+					'JOIN tb_admins as ad ON n.tb_admins_idtb_admins = ad.idtb_admins ' +
+					'Where idtb_noticias = ?',[id],(error,results)=>{
 					if(error){
 						errorHandler(error,'lalalalalalalal', reject)
 						return false
 					}
-					resolve({noticia: results})
+						var result=results[0]
+						resultado ={						
+							'id' : result.id,
+							'titulo' : result.titulo,
+							'texto' : result.texto,
+							'data_postagem': result.data_postagem,
+							'imagem': result.imagem,
+							'excluido': result.excluido,
+							'admins' : {
+								'id' : result.idtb_admins,
+								'nome' : result.nome,
+								'email': result.email
+							}
+						}
+
+					resolve({noticia: resultado})
 				})
 			})			
 		},

@@ -49,12 +49,29 @@ const pins = deps => {
 		item: (id) => {
 			return new Promise((resolve, reject)=>{
 			const { connection, errorHandler } = deps
-				connection.query('Select * from tb_pins Where idtb_pins = ?',[id],(error,results)=>{
+				connection.query(`SELECT p.*, ad.* 
+								  FROM tb_pins as p
+								  JOIN tb_admins as ad
+								  ON p.tb_admins_idtb_admins = ad.idtb_admins
+					 			  Where idtb_pins = ?`,
+					 [id],(error,results)=>{
 					if(error){
 						errorHandler(error,'lalalalalalalal', reject)
 						return false
 					}
-					resolve({pins: results})
+					resultado = {		
+						'id' : results[0].idtb_pins,
+						'descricao' : results[0].descricao,
+						'data_postagem': results[0].data_postagem,
+						'excluido': results[0].excluido,
+						'admins' : {
+							'id' : results[0].idtb_admins,
+							'nome' : results[0].nome,
+							'email': results[0].email
+						}
+					}
+
+					resolve({pins: resultado})
 				})
 			})			
 		},
