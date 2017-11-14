@@ -4,12 +4,33 @@ const pins = deps => {
 		all: () => {
 			return new Promise((resolve, reject)=>{
 			const { connection, errorHandler } = deps
-				connection.query('Select * from tb_pins',(error,results)=>{
+				connection.query('Select p.idtb_pins as id, p.descricao, p.data_postagem, p.excluido, ad.* from tb_pins as p JOIN tb_admins as ad ON p.idtb_pins = ad.idtb_admins',(error,results)=>{
 					if(error){
 						errorHandler(error,'Falha ao listar os pins', reject)
 						return false
 					}
-					resolve({pins: results})
+
+					console.log(results)
+					var final = []
+					for(index in results){
+						var result = results[index]
+						resultado ={						
+						
+							'id' : result.id,
+							'descricao' : result.descricao,
+							'data_postagem': result.data_postagem,
+							'excluido': result.excluido,
+							'admins' : {
+								'id' : result.idtb_admins,
+								'nome' : result.nome,
+								'email': result.email
+							}
+
+						}
+						final.push(resultado)						
+					}
+					resolve({pins: final})
+					
 				})
 			})			
 		},

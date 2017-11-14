@@ -4,12 +4,42 @@ const empregos = deps => {
 	return {
 		all: () => {
 			return new Promise((resolve, reject)=>{
+
+			const queryEmpregos = 
+			'Select emp.idtb_empregos as id, ' +
+			 'from tb_empregos '+
+			 'JOIN tb_admins ON tb_empregos.tb_admins_idtb_admins = tb_admins.idtb_admins '+
+			 'JOIN tb_empresas ON tb_empregos.tb_empresa_idtb_empresa = tb_empresas.idtb_empresas' 	
 			const { connection, errorHandler } = deps
-				connection.query('Select * from tb_empregos',(error,results)=>{
+				connection.query(queryEmpregos,(error,results)=>{
 					if(error){
 						errorHandler(error,'Falha ao listar as empregos', reject)
 						return false
 					}
+					var final = []
+					for(index in results){
+						var result = results[index]
+						resultado ={						
+						
+							'id' : result.idtb_empregos,
+							'titulo' : result.titulo,
+							'texto' : result.texto,
+							'data_postagem': result.data_postagem,
+							'link_vaga': result.link_vaga,
+							'local_evento': result.local_evento,
+							'link_evento': result.link_evento,
+							'excluido': result.excluido,
+							'admins' : {
+								'id' : result.idtb_admins,
+								'nome' : result.nome,
+								'email': result.email
+							}
+
+						}
+						final.push(resultado)						
+					}
+
+
 					resolve({empregos: results})
 				})
 			})			

@@ -4,13 +4,37 @@ const noticias = deps => {
 	return {
 		all: () => {
 			return new Promise((resolve, reject)=>{
+			
 			const { connection, errorHandler } = deps
-				connection.query('Select * from tb_noticias',(error,results)=>{
+				//LEFT JOIN ???			
+				connection.query('Select n.idtb_noticias as id, n.titulo, n.texto, n.data_postagem, n.imagem, n.excluido, ad.* from tb_noticias as n LEFT JOIN tb_admins as ad ON n.idtb_noticias = ad.idtb_admins',(error,results)=>{
 					if(error){
 						errorHandler(error,'Falha ao listar as noticias', reject)
 						return false
 					}
-					resolve({noticias: results})
+					console.log(results)
+					var final = []
+					for(index in results){
+						var result = results[index]
+						resultado ={						
+						
+							'id' : result.id,
+							'titulo' : result.titulo,
+							'texto' : result.texto,
+							'data_postagem': result.data_postagem,
+							'imagem': result.imagem,
+							'excluido': result.excluido,
+							'admins' : {
+								'id' : result.idtb_admins,
+								'nome' : result.nome,
+								'email': result.email
+							}
+
+						}
+						final.push(resultado)						
+					}
+				
+					resolve({noticias: final})
 				})
 			})			
 		},

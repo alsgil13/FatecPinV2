@@ -3,12 +3,41 @@ const eventos = deps => {
 		all: () => {
 			return new Promise((resolve, reject)=>{
 			const { connection, errorHandler } = deps
-				connection.query('Select * from tb_eventos',(error,results)=>{
+				const queryEventos = 'Select ev.idtb_eventos as id, ev.titulo, ev.texto, ev.data_postagem, '+
+				'ev.data_evento, ev.local_evento, ev.link_evento,ev.excluido, ad.* from tb_eventos as ev '+
+				'LEFT JOIN tb_admins as ad ON ev.idtb_eventos = ad.idtb_admins'
+				
+				connection.query('Select ev.idtb_eventos as id, ev.titulo, ev.texto, ev.data_postagem, ev.data_evento, ev.local_evento, ev.link_evento,ev.excluido, ad.* from tb_eventos as ev LEFT JOIN tb_admins as ad ON ev.idtb_eventos = ad.idtb_admins',(error,results)=>{
 					if(error){
 						errorHandler(error,'Falha ao listar as eventos', reject)
 						return false
 					}
-					resolve({eventos: results})
+					console.log(results)
+					var final = []
+					for(index in results){
+						var result = results[index]
+						resultado ={						
+						
+							'id' : result.id,
+							'titulo' : result.titulo,
+							'texto' : result.texto,
+							'data_postagem': result.data_postagem,
+							'data_evento': result.data_evento,
+							'local_evento': result.local_evento,
+							'link_evento': result.link_evento,
+							'excluido': result.excluido,
+							'admins' : {
+								'id' : result.idtb_admins,
+								'nome' : result.nome,
+								'email': result.email
+							}
+
+						}
+						final.push(resultado)						
+					}
+				
+
+					resolve({eventos: final})
 				})
 			})			
 		},

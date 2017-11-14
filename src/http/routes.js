@@ -18,7 +18,7 @@ const routes = (server) => {
 	
 	const getNoticiasId = async (req, res, next) => {
 		var id = req.params.id
-		console.log(db.noticias())
+		
 		try{
 			res.send(await db.noticias().item(id))
 		}catch(error){
@@ -124,7 +124,7 @@ const routes = (server) => {
 //empregos
 	const getEmpregos = async (req, res, next) => {
 		
-		console.log(db.empregos())
+		
 		try{
 			res.send(await db.empregos().all())
 		}catch(error){
@@ -135,7 +135,7 @@ const routes = (server) => {
 
 	const getEmpregosId = async (req, res, next) => {
 		var id = req.params.id
-		console.log(db.empregos())
+		
 		try{
 			res.send(await db.empregos().item(id))
 		}catch(error){
@@ -182,7 +182,7 @@ const routes = (server) => {
 
 //empresa
 	const getEmpresas = async (req, res, next) => {
-		console.log(db.empresas())
+		
 		try{
 			res.send(await db.empresas().all())
 		}catch(error){
@@ -192,7 +192,7 @@ const routes = (server) => {
 	}
 	const getEmpresasId = async (req, res, next) => {
 		var id = req.params.id
-		console.log(db.empresas())
+		
 		try{
 			res.send(await db.empresas().item(id))
 		}catch(error){
@@ -238,7 +238,7 @@ const routes = (server) => {
 //evento
 
 	const getEventos = async (req, res, next) => {
-		console.log(db.eventos())
+		
 		try{
 			res.send(await db.eventos().all())
 		}catch(error){
@@ -248,7 +248,7 @@ const routes = (server) => {
 	}
 	const getEventosId = async (req, res, next) => {
 		var id = req.params.id
-		console.log(db.eventos())
+		
 		try{
 			res.send(await db.eventos().item(id))
 		}catch(error){
@@ -269,7 +269,7 @@ const routes = (server) => {
 	const putEventos = async (req,res,next)=>{
 		
 		const { idtb_eventos, tb_admins_idtb_admins, titulo, texto, data_postagem, local_evento, data_evento, excluido } = req.params
-		console.log({ idtb_eventos, tb_admins_idtb_admins, titulo, texto, data_postagem, data_evento, excluido } )
+		
 		try{
 			res.send(await db.eventos().update(idtb_eventos, tb_admins_idtb_admins, titulo, texto, data_postagem, data_evento, local_evento, excluido))
 		}catch(error){
@@ -297,7 +297,7 @@ const routes = (server) => {
 
 
 	const getPins = async (req, res, next) => {
-		console.log(db.pins())
+		
 		try{
 			res.send(await db.pins().all())
 		}catch(error){
@@ -308,7 +308,7 @@ const routes = (server) => {
 
 	const getPinsId = async (req, res, next) => {
 		var id = req.params.id
-		console.log(db.pins())
+		
 		try{
 			res.send(await db.pins().item(id))
 		}catch(error){
