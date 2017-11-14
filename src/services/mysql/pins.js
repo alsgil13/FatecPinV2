@@ -1,15 +1,20 @@
 
 const pins = deps => {
 	return {
-		all: () => {
+		all: (filter) => {
 			return new Promise((resolve, reject)=>{
-			const { connection, errorHandler } = deps
+
+			const { connection, errorHandler } = deps	
+				const start = filter.start ? parseInt(filter.start) : 0;
+				const limit = filter.limit ? parseInt(filter.limit) : 100; // default value if not setted
 				connection.query(`
 					SELECT p.*, ad.*
 					FROM tb_pins as p
 					JOIN tb_admins as ad
 					ON p.tb_admins_idtb_admins = ad.idtb_admins
-				`, (error,results)=>{
+					ORDER BY idtb_pins DESC
+					LIMIT ?,?
+				`, [start,limit], (error,results)=>{
 					if(error){
 						errorHandler(error,'Falha ao listar os pins', reject)
 						return false
@@ -31,7 +36,10 @@ const pins = deps => {
 						}
 						final.push(resultado)						
 					}
-					resolve({pins: final})
+					resolve({
+						total: results.length,
+						pins: final
+					})
 					
 				})
 			})			
@@ -95,11 +103,5 @@ const pins = deps => {
 
 	}
 }
-
-
-
-
-
-
 
 module.exports = pins

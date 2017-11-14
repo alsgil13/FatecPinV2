@@ -296,19 +296,18 @@ const routes = (server) => {
 
 
 
-	const getPins = async (req, res, next) => {
-		
-		try{
-			res.send(await db.pins().all())
-		}catch(error){
+	const getPins = async (req, res, next) => {				
+		try {
+			const filter = req.query			
+			res.send(await db.pins().all(filter))
+		} catch(error){
 			res.send(error)
 		}
 		next()			
 	}
 
 	const getPinsId = async (req, res, next) => {
-		var id = req.params.id
-		
+		var id = req.params.id		
 		try{
 			res.send(await db.pins().item(id))
 		}catch(error){
