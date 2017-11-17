@@ -1,45 +1,55 @@
 
 const pins = deps => {
 	return {
-		all: (filter) => {
+		all: (filter) => {			
 			return new Promise((resolve, reject)=>{
-
 			const { connection, errorHandler } = deps	
 				const start = filter.start ? parseInt(filter.start) : 0;
-				const limit = filter.limit ? parseInt(filter.limit) : 100; // default value if not setted
+				const limit = filter.limit ? parseInt(filter.limit) : 5; // default value if not setted
 				connection.query(`
-					SELECT p.*, ad.*
+					SELECT p.*, ad.*, (SELECT COUNT(1) FROM tb_pins) as total
 					FROM tb_pins as p
 					JOIN tb_admins as ad
 					ON p.tb_admins_idtb_admins = ad.idtb_admins
 					WHERE p.excluido = 0
 					ORDER BY idtb_pins DESC
 					LIMIT ?,?
-
 				`, [start,limit], (error,results)=>{
-					if(error){
+					if(error && !results.length){
 						errorHandler(error,'Falha ao listar os pins', reject)
 						return false
 					}
-					var final = []
-					for(index in results){
-						var result = results[index]
+					const final = []
+					for(index in results) {
+						const result = results[index]
 						resultado = {		
 							'id' : result.idtb_pins,
 							'descricao' : result.descricao,
 							'data_postagem': result.data_postagem,
 							'excluido': result.excluido,
-							'admins' : {
+							'admin' : {
 								'id' : result.idtb_admins,
 								'nome' : result.nome,
 								'email': result.email
 							}
-
-						}
+						}											
 						final.push(resultado)						
 					}
-					resolve({
-						total: results.length,
+					if(!results.length > 0) {
+						resolve({pins: final})
+						return false;
+					}
+
+					const total = results[0].total
+					const totalPages = Math.ceil(total / limit)
+					const currentPage = Math.floor(start / limit) + 1
+
+					resolve ({					
+						totalResults: total,
+						totalPages: totalPages,
+						currentPage: currentPage,
+						nextPage: (limit * currentPage) >= total ? null : process.env.BASE_URL + '/public/pins?limit=' + limit + '&start=' + limit * currentPage,
+						previousPage: (start - limit) < 0 ? null : process.env.BASE_URL + '/public/pins?limit=' + limit + '&start=' + (start - limit),						
 						pins: final
 					})
 					

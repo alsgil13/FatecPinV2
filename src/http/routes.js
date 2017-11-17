@@ -395,6 +395,7 @@ server.del('private/eventos',delEventos)
 
 server.get('public/pins', getPins)
 server.get('public/pins/:id', getPinsId)
+server.get('private/pins', postPins)
 server.post('private/pins', postPins)
 server.put('private/pins', putPins)
 server.del('private/pins',delPins)
