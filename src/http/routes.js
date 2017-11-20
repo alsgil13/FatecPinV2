@@ -1,6 +1,7 @@
 
 const db = require('../services/mysql')
 
+
 const routes = (server) => {
 
 //Funções
@@ -361,7 +362,25 @@ const routes = (server) => {
 	}
 /////////////////////////////////////////////////////////////////////////
 
+// Dispositivo
+	const postDispositivo = async (req, res, next) => {
+		const { id_dispositivo } = req.params
+		
+		try{
+			//console.log(db)
+			//res.send(await db.auth().authenticate(email,senha))
+			res.send(await db.dispositivos().save(id_dispositivo))
+		}catch(error){
+			res.send(error)
+			console.log(error)
+		}
+		
+		next()			
+	}
+
 //Rotas
+
+server.post('public/dispositivos', postDispositivo)
 
 server.get('public/noticias', getNoticias)
 server.get('public/noticias/:id', getNoticiasId)

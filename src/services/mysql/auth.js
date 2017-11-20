@@ -1,4 +1,4 @@
-
+	
 const sha1 = require('sha1')
 
 const jwt = require('jsonwebtoken')

@@ -20,6 +20,7 @@ const eventosModule = require('./eventos')({ connection, errorHandler })
 const pinsModule = require('./pins')({ connection, errorHandler })
 const adminsModule = require('./admins')({ connection, errorHandler })
 const authModule = require('./auth')({ connection, errorHandler })
+const dispositivosModule = require('./dispositivos')({ connection, errorHandler })
 
 
 module.exports = {
@@ -29,6 +30,7 @@ module.exports = {
 	pins: () => pinsModule,
 	admins: () => adminsModule,
 	empresas: () => empresasModule,
+	dispositivos: () => dispositivosModule,
 	auth: () => authModule
 
 }

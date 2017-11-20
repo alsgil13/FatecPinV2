@@ -13,7 +13,7 @@ const eventos = deps => {
 						errorHandler(error,'Falha ao listar as eventos', reject)
 						return false
 					}
-					console.log(results)
+					//console.log(results)
 					var final = []
 					for(index in results){
 						var result = results[index]

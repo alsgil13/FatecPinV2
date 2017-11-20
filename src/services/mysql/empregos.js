@@ -13,7 +13,7 @@ const empregos = deps => {
 			JOIN tb_admins ON tb_empregos.tb_admins_idtb_admins = tb_admins.idtb_admins 
 			JOIN tb_empresas ON tb_empregos.tb_empresa_idtb_empresa = tb_empresas.idtb_empresas 
 			WHERE tb_empregos.excluido = 0` 	
-			console.log(queryEmpregos)
+			//console.log(queryEmpregos)
 			const { connection, errorHandler } = deps
 				connection.query(queryEmpregos,(error,results)=>{
 					if(error){

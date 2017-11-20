@@ -15,7 +15,7 @@ const noticias = deps => {
 						errorHandler(error,'Falha ao listar as noticias', reject)
 						return false
 					}
-					console.log(results)
+					//console.log(results)
 					var final = []
 					for(index in results){
 						var result = results[index]
