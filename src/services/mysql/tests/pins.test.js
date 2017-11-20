@@ -13,11 +13,11 @@ test('Criação de Pins', async t => {
 	t.is(result.pins.id, 1)
 })
 
-// test('Lista de Pins', async t => {
-// 	await create()
-// 	const list = await pins.all()
-// 	t.is(list.pins.length, 1)
-// })
+test('Lista de Pins', async t => {
+	await create()
+	const list = await pins.all()
+	t.is(list.pins.length, 1)
+})
 
 test('Item único Pins', async t => {
 	await create()

@@ -5,7 +5,7 @@ const eventos = require('../eventos')({ connection, errorHandler })
 const create = () => eventos.save(1, 'titulo','texto','2017-10-29 11:18:00','2017-10-29 11:18:00','local',0)
 
 test.beforeEach(t => connection.query('truncate table tb_eventos'))
-//test.after.always(t => connection.query('truncate table tb_eventos'))
+test.after.always(t => connection.query('truncate table tb_eventos'))
 
 test('Criação de eventos', async t => {
 	const result = await create()
