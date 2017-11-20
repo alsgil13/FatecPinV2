@@ -71,3 +71,29 @@ CREATE TABLE `tb_pins` (
   PRIMARY KEY (`idtb_pins`),
   KEY `tb_pins_FKIndex1` (`tb_admins_idtb_admins`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+ALTER TABLE tb_empregos 
+ADD CONSTRAINT fk_empregos_admin 
+FOREIGN KEY(tb_admins_idtb_admins) 
+REFERENCES tb_admins (idtb_admins);
+
+ALTER TABLE tb_empregos 
+ADD CONSTRAINT fk_empregos_empresa 
+FOREIGN KEY(tb_empresa_idtb_empresa) 
+REFERENCES tb_empresas (idtb_empresas);
+
+ALTER TABLE tb_noticias 
+ADD CONSTRAINT fk_noticias_admin 
+FOREIGN KEY(tb_admins_idtb_admins) 
+REFERENCES tb_admins (idtb_admins);
+
+ALTER TABLE tb_eventos 
+ADD CONSTRAINT fk_eventos_admin 
+FOREIGN KEY(tb_admins_idtb_admins) 
+REFERENCES tb_admins (idtb_admins);
+
+ALTER TABLE tb_pins 
+ADD CONSTRAINT fk_pins_admin 
+FOREIGN KEY(tb_admins_idtb_admins) 
+REFERENCES tb_admins (idtb_admins);
