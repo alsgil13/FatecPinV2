@@ -22,7 +22,7 @@ test('Lista de Pins', async t => {
 test('Item único Pins', async t => {
 	await create()
 	const result = await pins.item(1)
-	t.is(result.pins[0].descricao, 'descricao')
+	t.is(result.pins.descricao, 'descricao')
 })
 
 test('Atualização de Pins', async t => {

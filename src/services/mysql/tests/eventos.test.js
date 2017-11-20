@@ -22,7 +22,7 @@ test('Lista de Eventos', async t => {
 test('Item único Eventos', async t => {
 	await create()
 	const result = await eventos.item(1)
-	t.is(result.eventos[0].titulo, 'titulo')
+	t.is(result.eventos.titulo, 'titulo')
 })
 
 test('Atualização de Eventos', async t => {

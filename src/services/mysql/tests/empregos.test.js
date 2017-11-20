@@ -23,7 +23,7 @@ test('Lista de Empregos', async t => {
 test('Item único Empregos', async t => {
 	await create()
 	const result = await empregos.item(1)
-	t.is(result.emprego[0].titulo, 'titulo do emprego')
+	t.is(result.emprego.titulo, 'titulo do emprego')
 })
 
 test('Atualização de Empregos', async t => {

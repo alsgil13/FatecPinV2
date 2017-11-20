@@ -25,7 +25,7 @@ test('Lista de Notícias', async t => {
 test('Item único Notícias', async t => {
 	await create()
 	const result = await noticias.item(1)
-	t.is(result.noticia[0].titulo, 'titulo')
+	t.is(result.noticia.titulo, 'titulo')
 })
 
 test('Atualização de Noticias', async t => {
