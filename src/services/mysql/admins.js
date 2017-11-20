@@ -6,7 +6,7 @@ const admins = deps => {
 		all: () => {
 			return new Promise((resolve, reject)=>{
 			const { connection, errorHandler } = deps
-				connection.query('Select idtb_admins, nome, email, excluido from tb_admins',(error,results)=>{
+				connection.query('Select idtb_admins as id, nome, email, excluido from tb_admins',(error,results)=>{
 					if(error){
 						errorHandler(error,'Falha ao listar os admins', reject)
 						return false
@@ -19,7 +19,7 @@ const admins = deps => {
 		item: (id) => {
 			return new Promise((resolve, reject)=>{
 			const { connection, errorHandler } = deps
-				connection.query('Select idtb_admins, nome, email, excluido from tb_admins Where idtb_admins = ?',[id],(error,results)=>{
+				connection.query('Select idtb_admins as id, nome, email, excluido from tb_admins Where idtb_admins = ?',[id],(error,results)=>{
 					if(error){
 						errorHandler(error,'lalalalalalalal', reject)
 						return false
