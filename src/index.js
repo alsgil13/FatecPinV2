@@ -1,6 +1,6 @@
 require('dotenv').config()
 
-require('./helper')
+//require('./helper')
 
 const server = require('./server')
 
