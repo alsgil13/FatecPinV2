@@ -4,7 +4,8 @@ const cors = corsMiddleware({
   preflightMaxAge: 5, //Optional
   origins: ['*'],
   allowHeaders: ['*'],
-  exposeHeaders: ['*']
+  exposeHeaders: ['*'],
+  credentials: true
 })
 
 module.exports = cors
