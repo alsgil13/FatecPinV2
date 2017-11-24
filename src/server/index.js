@@ -22,7 +22,7 @@ server.pre(cors.preflight)
 server.use(cors.actual)
 */
 
-app.use(function(req, res, next) {
+server.use(function(req, res, next) {
     var oneof = false;
     if(req.headers.origin) {
         res.header('Access-Control-Allow-Origin', req.headers.origin);
