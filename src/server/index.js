@@ -24,10 +24,9 @@ server.use(cors.actual)
 
 server.use(function(req, res, next) {
     var oneof = false;
-    if(req.headers.origin) {
-        res.header('Access-Control-Allow-Origin', req.headers.origin);
-        oneof = true;
-    }
+
+    res.header('Access-Control-Allow-Origin', '*');
+
     if(req.headers['access-control-request-method']) {
         res.header('Access-Control-Allow-Methods', req.headers['access-control-request-method']);
         oneof = true;
