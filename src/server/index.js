@@ -8,7 +8,14 @@ const cors = require('./cors.js')
 
 const jwtMiddleware = require('./jwtMiddleware')
 
-server.opts( /.*/, ( req, res ) => res.send( 204 ) )
+//server.opts( /.*/, ( req, res ) => res.send( 204 ) )
+
+server.use(function(req, res, next) {
+    if (req.method == 'OPTIONS') {
+        res.send(200);
+    }
+	next();
+});
 
 server.pre(cors.preflight)
 
