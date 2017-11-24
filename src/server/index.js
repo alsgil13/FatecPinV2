@@ -8,7 +8,7 @@ const cors = require('./cors.js')
 
 const jwtMiddleware = require('./jwtMiddleware')
 
-server.pre(cors.preflight)
+server.pre(cors.preflight) //cors
 
 server.use(cors.actual)
 
