@@ -8,6 +8,8 @@ const cors = require('./cors.js')
 
 const jwtMiddleware = require('./jwtMiddleware')
 
+server.opts( /.*/, ( req, res ) => res.send( 204 ) )
+
 server.pre(cors.preflight)
 
 server.use(cors.actual)
@@ -19,11 +21,6 @@ server.use(restify.plugins.queryParser())
 server.use(jwtMiddleware())
 
 server.pre(restify.pre.sanitizePath())
-
-server.opts(/\.*/, (req, res, next) => {
-	res.send(200);
-	next();
-})
 
 routes(server)
 
