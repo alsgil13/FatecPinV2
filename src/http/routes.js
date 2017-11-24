@@ -421,10 +421,7 @@ server.del('private/pins',delPins)
 
 server.post('public/autenticacao',postAutenticacao)
 
-server.opts(/\.*/, (req, res, next) => {
-	res.send(200);
-	next();
-});
+
 
 }
 

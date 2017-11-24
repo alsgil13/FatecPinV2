@@ -20,6 +20,11 @@ server.use(jwtMiddleware())
 
 server.pre(restify.pre.sanitizePath())
 
+server.opts(/\.*/, (req, res, next) => {
+	res.send(200);
+	next();
+})
+
 routes(server)
 
 module.exports = server
