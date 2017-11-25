@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken')
 
 const jwtMiddleware = (deps) => {
 	return async (req,res,next) => {
-		if(req.href().split("/")[1] === "private"){ //quebra a URL e checa se tem private na primeira trilha
+		if(req.href().split("/")[1] != "public"){ //quebra a URL e checa se tem private na primeira trilha
 			const token = req.headers['x-access-token'] 
 			if(!token){
 				res.send(403,{ error: 'Token nao fornecido'})
