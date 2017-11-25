@@ -318,10 +318,8 @@ const routes = (server) => {
 	}
 
 	const postPins = async (req,res,next)=>{
-		//const { tb_admins_idtb_admins, descricao, data_postagem, excluido } = req.params
-		console.log(req)
-		console.log(req.params)
-		res.send(await req.params)
+		const { tb_admins_idtb_admins, descricao, data_postagem, excluido } = req.params
+		res.send(req.params)
 		next()
 		/*
 		try{
@@ -329,7 +327,8 @@ const routes = (server) => {
 		}catch(error){
 			res.send(error)
 		}
-		next()*/
+		next()
+		*/
 	}
 
 	const putPins = async (req,res,next)=>{
