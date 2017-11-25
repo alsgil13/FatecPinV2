@@ -317,7 +317,7 @@ const routes = (server) => {
 		next()			
 	}
 
-	const postPins = async (req,res,next)=>{
+	const postPins = (req,res,next)=>{
 		const { tb_admins_idtb_admins, descricao, data_postagem, excluido } = req.params
 		res.send(req)
 		next()
