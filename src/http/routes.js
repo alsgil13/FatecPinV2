@@ -321,13 +321,14 @@ const routes = (server) => {
 		const { tb_admins_idtb_admins, descricao, data_postagem, excluido } = req.params
 		res.send(req.query)
 		next()
-
+		/*
 		try{
 			res.send(await db.pins().save(tb_admins_idtb_admins, descricao, data_postagem, excluido))
 		}catch(error){
 			res.send(error)
 		}
 		next()
+		*/
 	}
 
 	const putPins = async (req,res,next)=>{
