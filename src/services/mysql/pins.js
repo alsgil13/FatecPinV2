@@ -88,7 +88,7 @@ const pins = deps => {
 		save: (tb_admins_idtb_admins, descricao, data_postagem, excluido) => {
 			return new Promise((resolve, reject)=>{
 			const { connection, errorHandler } = deps				
-				connection.query('Insert Into tb_pins (tb_admins_idtb_admins, descricao, excluido) Values(?,?,NOW(),0)',[tb_admins_idtb_admins, descricao, data_postagem, excluido],(error,results)=>{
+				connection.query('Insert Into tb_pins (tb_admins_idtb_admins, descricao, data_postagem, excluido) Values(?,?,NOW(),0)',[tb_admins_idtb_admins, descricao],(error,results)=>{
 					if(error){
 						errorHandler(error,'Falha ao salvar', reject)
 						return false
