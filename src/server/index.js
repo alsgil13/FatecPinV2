@@ -12,13 +12,9 @@ server.pre(cors.preflight) //cors
 
 server.use(cors.actual)
 
-server.use(restify.plugins.bodyParser({
-    mapParams: true
-}))
+server.use(restify.plugins.bodyParser())
 
-server.use(restify.plugins.queryParser({
-    mapParams: true
-}))
+server.use(restify.plugins.queryParser())
 
 server.use(jwtMiddleware())
 

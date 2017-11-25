@@ -318,17 +318,14 @@ const routes = (server) => {
 	}
 
 	const postPins = async (req,res,next)=>{
-		const { tb_admins_idtb_admins, descricao, data_postagem, excluido } = req.params
-		res.send(req.params)
-		next()
-		/*
+		const { tb_admins_idtb_admins, descricao } = req.params
+		console.log(req.params)
 		try{
-			res.send(await db.pins().save(tb_admins_idtb_admins, descricao, data_postagem, excluido))
+			res.send(await db.pins().save(tb_admins_idtb_admins, descricao))
 		}catch(error){
 			res.send(error)
 		}
 		next()
-		*/
 	}
 
 	const putPins = async (req,res,next)=>{
@@ -418,7 +415,7 @@ server.del('private/eventos',delEventos)
 
 server.get('public/pins', getPins)
 server.get('public/pins/:id', getPinsId)
-server.get('private/pins', getPins)
+//server.get('private/pins', getPins)
 server.post('private/pins', postPins)
 server.put('private/pins', putPins)
 server.del('private/pins',delPins)
