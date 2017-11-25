@@ -85,7 +85,7 @@ const pins = deps => {
 				})
 			})			
 		},
-		save: (tb_admins_idtb_admins, descricao, data_postagem, excluido) => {
+		save: (tb_admins_idtb_admins, descricao) => {
 			return new Promise((resolve, reject)=>{
 			const { connection, errorHandler } = deps				
 				connection.query('Insert Into tb_pins (tb_admins_idtb_admins, descricao, data_postagem, excluido) Values(?,?,NOW(),0)',[tb_admins_idtb_admins, descricao],(error,results)=>{
