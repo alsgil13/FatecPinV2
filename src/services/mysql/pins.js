@@ -93,8 +93,8 @@ const pins = deps => {
 						errorHandler(error,'Falha ao salvar', reject)
 						return false
 					}
-					console.log(results)
-					resolve({pins: {tb_admins_idtb_admins, descricao, data_postagem, excluido, id: results.insertId}})
+					//console.log(results)
+					resolve({pins: results})
 				})
 				
 			})	
