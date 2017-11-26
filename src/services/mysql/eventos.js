@@ -110,7 +110,8 @@ const eventos = deps => {
 	  	del: (idtb_eventos) => {
 			return new Promise((resolve, reject)=>{
 			const { connection, errorHandler } = deps				
-				connection.query('Delete From tb_eventos Where idtb_eventos = ?',[idtb_eventos],(error,results)=>{
+				//connection.query('Delete From tb_eventos Where idtb_eventos = ?',[idtb_eventos],(error,results)=>{
+				connection.query('UPDATE tb_eventos SET excluido = 1 Where idtb_eventos = ?',[idtb_eventos],(error,results)=>{
 					if(error || !results.affectedRows){
 						errorHandler(error,'Falha ao remover', reject)
 						return false

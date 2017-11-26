@@ -117,7 +117,8 @@ const pins = deps => {
   	del: (idtb_pins) => {
 			return new Promise((resolve, reject)=>{
 			const { connection, errorHandler } = deps				
-				connection.query('Delete From tb_pins Where idtb_pins = ?',[idtb_pins],(error,results)=>{
+				//connection.query('Delete From tb_pins Where idtb_pins = ?',[idtb_pins],(error,results)=>{
+				connection.query('UPDATE tb_pins SET excluido = 1 Where idtb_pins = ?',[idtb_pins],(error,results)=>{
 					if(error || !results.affectedRows){
 						errorHandler(error,'Falha ao remover', reject)
 						return false
