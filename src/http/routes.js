@@ -29,9 +29,9 @@ const routes = (server) => {
 	}
 
 	const postNoticias = async (req,res,next)=>{
-		const { tb_admins_idtb_admins, titulo, texto, imagem } = req.params
+		const { id_admins, titulo, texto, imagem } = req.params
 		try{
-			res.send(await db.noticias().save(tb_admins_idtb_admins, titulo, texto, imagem))
+			res.send(await db.noticias().save(id_admins, titulo, texto, imagem))
 		}catch(error){
 			res.send(error)
 		}
@@ -52,10 +52,10 @@ const routes = (server) => {
 
 	const putNoticias = async (req,res,next)=>{
 		
-		const { idtb_noticias, tb_admins_idtb_admins, titulo, texto, imagem} = req.params
+		const { idtb_noticias, id_admins, titulo, texto, imagem} = req.params
 		//console.log({ id_tbnoticias, tb_admins_idtb_admins, titulo, texto, data_postagem, imagem, excluido })
 		try{
-			res.send(await db.noticias().update(idtb_noticias, tb_admins_idtb_admins, titulo, texto, imagem))
+			res.send(await db.noticias().update(idtb_noticias, id_admins, titulo, texto, imagem))
 		}catch(error){
 			res.send(error)
 		}	
@@ -146,9 +146,9 @@ const routes = (server) => {
 	}
 
 	const postEmpregos = async (req,res,next)=>{
-		const { tb_empresa_idtb_empresa, tb_admins_idtb_admins, titulo, texto, link_vaga } = req.params
+		const { tb_empresa_idtb_empresa, id_admins, titulo, texto, link_vaga } = req.params
 		try{
-			res.send(await db.empregos().save(tb_empresa_idtb_empresa,tb_admins_idtb_admins, titulo, texto, link_vaga))
+			res.send(await db.empregos().save(tb_empresa_idtb_empresa,id_admins, titulo, texto, link_vaga))
 		}catch(error){
 			res.send(error)
 		}
@@ -157,10 +157,10 @@ const routes = (server) => {
 
 	const putEmpregos = async (req,res,next)=>{
 		
-		const { idtb_empregos, tb_empresa_idtb_empresa, tb_admins_idtb_admins, titulo,texto, data_postagem, excluido, link_vaga } = req.params
+		const { idtb_empregos, tb_empresa_idtb_empresa, id_admins, titulo,texto, data_postagem, excluido, link_vaga } = req.params
 		//console.log({ idtb_empregos, tb_empresa_idtb_empresa, tb_admins_idtb_admins, titulo,texto, data_postagem, excluido, link_vaga })
 		try{
-			res.send(await db.empregos().update(idtb_empregos, tb_empresa_idtb_empresa,tb_admins_idtb_admins, titulo,texto, data_postagem,excluido,link_vaga))
+			res.send(await db.empregos().update(idtb_empregos, tb_empresa_idtb_empresa,id_admins, titulo,texto, data_postagem,excluido,link_vaga))
 		}catch(error){
 			res.send(error)
 		}	
@@ -258,9 +258,9 @@ const routes = (server) => {
 		next()			
 	}
 	const postEventos = async (req,res,next)=>{
-		const { tb_admins_idtb_admins, titulo, texto, data_evento, local_evento} = req.params
+		const { id_admins, titulo, texto, data_evento, local_evento} = req.params
 		try{
-			res.send(await db.eventos().save(tb_admins_idtb_admins, titulo, texto, data_evento, local_evento))
+			res.send(await db.eventos().save(id_admins, titulo, texto, data_evento, local_evento))
 		}catch(error){
 			res.send(error)
 		}
@@ -269,10 +269,10 @@ const routes = (server) => {
 
 	const putEventos = async (req,res,next)=>{
 		
-		const { idtb_eventos, tb_admins_idtb_admins, titulo, texto, local_evento, data_evento} = req.params
+		const { idtb_eventos, id_admins, titulo, texto, local_evento, data_evento} = req.params
 		
 		try{
-			res.send(await db.eventos().update(idtb_eventos, tb_admins_idtb_admins, titulo, texto, data_evento, local_evento))
+			res.send(await db.eventos().update(idtb_eventos, id_admins, titulo, texto, data_evento, local_evento))
 		}catch(error){
 			res.send(error)
 		}	
@@ -318,10 +318,10 @@ const routes = (server) => {
 	}
 
 	const postPins = async (req,res,next)=>{
-		const { tb_admins_idtb_admins, descricao } = req.params
+		const { id_admins, descricao } = req.params
 		//console.log(req.params)
 		try{
-			res.send(await db.pins().save(tb_admins_idtb_admins, descricao))
+			res.send(await db.pins().save(id_admins, descricao))
 		}catch(error){
 			res.send(error)
 		}
@@ -330,9 +330,9 @@ const routes = (server) => {
 
 	const putPins = async (req,res,next)=>{
 		
-		const { idtb_pins, tb_admins_idtb_admins, descricao} = req.params
+		const { idtb_pins, id_admins, descricao} = req.params
 		try{
-			res.send(await db.pins().update(idtb_pins, tb_admins_idtb_admins, descricao))
+			res.send(await db.pins().update(idtb_pins, id_admins, descricao))
 		}catch(error){
 			res.send(error)
 		}	
