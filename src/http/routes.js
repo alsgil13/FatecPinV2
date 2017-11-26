@@ -52,10 +52,10 @@ const routes = (server) => {
 
 	const putNoticias = async (req,res,next)=>{
 		
-		const { idtb_noticias, tb_admins_idtb_admins, titulo, texto, data_postagem, imagem, excluido } = req.params
+		const { idtb_noticias, tb_admins_idtb_admins, titulo, texto, imagem} = req.params
 		//console.log({ id_tbnoticias, tb_admins_idtb_admins, titulo, texto, data_postagem, imagem, excluido })
 		try{
-			res.send(await db.noticias().update(idtb_noticias, tb_admins_idtb_admins, titulo, texto, data_postagem, imagem, excluido))
+			res.send(await db.noticias().update(idtb_noticias, tb_admins_idtb_admins, titulo, texto, imagem))
 		}catch(error){
 			res.send(error)
 		}	
@@ -269,10 +269,10 @@ const routes = (server) => {
 
 	const putEventos = async (req,res,next)=>{
 		
-		const { idtb_eventos, tb_admins_idtb_admins, titulo, texto, data_postagem, local_evento, data_evento, excluido } = req.params
+		const { idtb_eventos, tb_admins_idtb_admins, titulo, texto, local_evento, data_evento} = req.params
 		
 		try{
-			res.send(await db.eventos().update(idtb_eventos, tb_admins_idtb_admins, titulo, texto, data_postagem, data_evento, local_evento, excluido))
+			res.send(await db.eventos().update(idtb_eventos, tb_admins_idtb_admins, titulo, texto, data_evento, local_evento))
 		}catch(error){
 			res.send(error)
 		}	
@@ -330,9 +330,9 @@ const routes = (server) => {
 
 	const putPins = async (req,res,next)=>{
 		
-		const { idtb_pins, tb_admins_idtb_admins, descricao, data_postagem, excluido } = req.params
+		const { idtb_pins, tb_admins_idtb_admins, descricao} = req.params
 		try{
-			res.send(await db.pins().update(idtb_pins, tb_admins_idtb_admins, descricao, data_postagem, excluido))
+			res.send(await db.pins().update(idtb_pins, tb_admins_idtb_admins, descricao))
 		}catch(error){
 			res.send(error)
 		}	

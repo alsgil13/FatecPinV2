@@ -92,16 +92,16 @@ const eventos = deps => {
 				
 			})	
 		},
-		update: (idtb_eventos,tb_admins_idtb_admins, titulo,texto, data_postagem,data_evento,local_evento,excluido) => {
+		update: (idtb_eventos,tb_admins_idtb_admins, titulo,texto, data_evento,local_evento) => {
 			return new Promise((resolve, reject)=>{
 			const { connection, errorHandler } = deps				
-				connection.query('Update tb_eventos set tb_admins_idtb_admins = ?, titulo = ?, texto = ?, data_postagem = ?, data_evento = ?, local_evento = ?, excluido = ? Where idtb_eventos = ?', [tb_admins_idtb_admins, titulo, texto, data_postagem, data_evento, local_evento, excluido, idtb_eventos],(error,results)=>{
+				connection.query('Update tb_eventos set tb_admins_idtb_admins = ?, titulo = ?, texto = ?, data_postagem = NOW(), data_evento = ?, local_evento = ?, excluido = 0 Where idtb_eventos = ?', [tb_admins_idtb_admins, titulo, texto, data_evento, local_evento, idtb_eventos],(error,results)=>{
 					if(error || !results.affectedRows){
 						errorHandler(error,'Falha ao atualizar', reject)
 						return false
 					}
 					
-					resolve({eventos: {idtb_eventos,tb_admins_idtb_admins, titulo,texto, data_postagem,data_evento,local_evento, excluido}, affectedRows: results.affectedRows})
+					resolve({eventos: {idtb_eventos,tb_admins_idtb_admins, titulo,texto, data_evento,local_evento}, affectedRows: results.affectedRows})
 				})
 				
 			})	

@@ -98,17 +98,17 @@ const pins = deps => {
 				
 			})	
 		},
-		update: (id_tbpins,tb_admins_idtb_admins, descricao, data_postagem, excluido) => {
+		update: (id_tbpins,tb_admins_idtb_admins, descricao) => {
 			return new Promise((resolve, reject)=>{
 			const { connection, errorHandler } = deps				
-				connection.query('Update tb_pins set tb_admins_idtb_admins = ?, descricao = ?, data_postagem = ?, excluido = ? Where idtb_pins = ?',[tb_admins_idtb_admins, descricao, data_postagem, excluido, id_tbpins],(error,results)=>{
+				connection.query('Update tb_pins set tb_admins_idtb_admins = ?, descricao = ?, data_postagem = NOW(), excluido = 0 Where idtb_pins = ?',[tb_admins_idtb_admins, descricao, id_tbpins],(error,results)=>{
 
 					if(error || !results.affectedRows){
 						errorHandler(error,'Falha ao atualizar', reject)
 						return false
 					}
 					
-					resolve({pins: {tb_admins_idtb_admins, descricao, data_postagem, excluido, id_tbpins}, affectedRows: results.affectedRows})
+					resolve({pins: {tb_admins_idtb_admins, descricao, id_tbpins}, affectedRows: results.affectedRows})
 				})
 				
 			})	
