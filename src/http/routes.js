@@ -29,9 +29,9 @@ const routes = (server) => {
 	}
 
 	const postNoticias = async (req,res,next)=>{
-		const { tb_admins_idtb_admins, titulo, texto, data_postagem, excluido, imagem } = req.params
+		const { tb_admins_idtb_admins, titulo, texto, imagem } = req.params
 		try{
-			res.send(await db.noticias().save(tb_admins_idtb_admins, titulo, texto, data_postagem, imagem, excluido))
+			res.send(await db.noticias().save(tb_admins_idtb_admins, titulo, texto, imagem))
 		}catch(error){
 			res.send(error)
 		}
@@ -146,9 +146,9 @@ const routes = (server) => {
 	}
 
 	const postEmpregos = async (req,res,next)=>{
-		const { tb_empresa_idtb_empresa,tb_admins_idtb_admins, titulo,texto, data_postagem,excluido,link_vaga } = req.params
+		const { tb_empresa_idtb_empresa, tb_admins_idtb_admins, titulo, texto, link_vaga } = req.params
 		try{
-			res.send(await db.empregos().save(tb_empresa_idtb_empresa,tb_admins_idtb_admins, titulo,texto, data_postagem,excluido,link_vaga))
+			res.send(await db.empregos().save(tb_empresa_idtb_empresa,tb_admins_idtb_admins, titulo, texto, link_vaga))
 		}catch(error){
 			res.send(error)
 		}
@@ -258,9 +258,9 @@ const routes = (server) => {
 		next()			
 	}
 	const postEventos = async (req,res,next)=>{
-		const { tb_admins_idtb_admins, titulo, texto, data_postagem, data_evento, local_evento, excluido } = req.params
+		const { tb_admins_idtb_admins, titulo, texto, data_evento, local_evento} = req.params
 		try{
-			res.send(await db.eventos().save(tb_admins_idtb_admins, titulo, texto, data_postagem, data_evento, local_evento, excluido))
+			res.send(await db.eventos().save(tb_admins_idtb_admins, titulo, texto, data_evento, local_evento))
 		}catch(error){
 			res.send(error)
 		}
@@ -319,7 +319,7 @@ const routes = (server) => {
 
 	const postPins = async (req,res,next)=>{
 		const { tb_admins_idtb_admins, descricao } = req.params
-		console.log(req.params)
+		//console.log(req.params)
 		try{
 			res.send(await db.pins().save(tb_admins_idtb_admins, descricao))
 		}catch(error){

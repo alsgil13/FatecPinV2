@@ -79,15 +79,15 @@ const eventos = deps => {
 				})
 			})			
 		},
-		save: (tb_admins_idtb_admins, titulo,texto, data_postagem,data_evento,local_evento,excluido) => {
+		save: (tb_admins_idtb_admins,titulo,texto,data_evento,local_evento) => {
 			return new Promise((resolve, reject)=>{
 			const { connection, errorHandler } = deps				
-				connection.query('Insert Into tb_eventos (tb_admins_idtb_admins, titulo,texto, data_postagem,data_evento,local_evento,excluido) Values(?,?,?,?,?,?,?)',[tb_admins_idtb_admins, titulo,texto, data_postagem,data_evento,local_evento,excluido],(error,results)=>{
+				connection.query('Insert Into tb_eventos (tb_admins_idtb_admins,titulo,texto,data_postagem,data_evento,local_evento,excluido) Values(?,?,?,NOW(),?,?,0)',[tb_admins_idtb_admins, titulo,texto, data_evento,local_evento],(error,results)=>{
 					if(error){
 						errorHandler(error,'Falha ao salvar', reject)
 						return false
 					}
-					resolve({eventos: {tb_admins_idtb_admins, titulo,texto, data_postagem,data_evento,local_evento,excluido, id: results.insertId}})
+					resolve({eventos: {tb_admins_idtb_admins, titulo,texto, data_evento,local_evento,id: results.insertId}})
 				})
 				
 			})	

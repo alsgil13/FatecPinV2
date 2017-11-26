@@ -105,16 +105,19 @@ const empregos = deps => {
 				})
 			})			
 		},
-		save: (tb_empresa_idtb_empresa,tb_admins_idtb_admins, titulo,texto, data_postagem,excluido,link_vaga) => {
+		save: (tb_empresa_idtb_empresa,tb_admins_idtb_admins, titulo,texto, link_vaga) => {
 			return new Promise((resolve, reject)=>{
-			const { connection, errorHandler } = deps				
-				connection.query('Insert Into tb_empregos (tb_empresa_idtb_empresa, tb_admins_idtb_admins, titulo,texto, data_postagem,excluido,link_vaga) Values (?,?,?,?,?,?,?)',[tb_empresa_idtb_empresa,tb_admins_idtb_admins, titulo,texto, data_postagem,excluido,link_vaga],(error,results)=>{
+			const { connection, errorHandler } = deps
+				// var now = new Date()
+				// var agora = now.getFullYear() + '-' + now.getMonth() + '-' + now.getDate() + ' ' + now.getHours()+ ':' + now.getMinutes()+ ':' + now.getSeconds()
+				// console.log(agora)
+				connection.query('Insert Into tb_empregos (tb_empresa_idtb_empresa, tb_admins_idtb_admins, titulo,texto,data_postagem,excluido,link_vaga) Values (?,?,?,?,NOW(),0,?)',[tb_empresa_idtb_empresa,tb_admins_idtb_admins, titulo,texto, link_vaga],(error,results)=>{
 					if(error){
 						console.log(error)
 						errorHandler(error,'Falha ao salvar', reject)
 						return false
 					}
-					resolve({empregos: {tb_empresa_idtb_empresa,tb_admins_idtb_admins, titulo, texto, data_postagem,excluido,link_vaga, id: results.insertId}})
+					resolve({empregos: {tb_empresa_idtb_empresa,tb_admins_idtb_admins, titulo, texto, link_vaga, id: results.insertId}})
 				})
 				
 			})	

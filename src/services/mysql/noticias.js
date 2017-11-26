@@ -73,15 +73,15 @@ const noticias = deps => {
 			})			
 		},
 
-		save: (tb_admins_idtb_admins, titulo, texto, data_postagem, imagem, excluido) => {
+		save: (tb_admins_idtb_admins, titulo, texto, imagem) => {
 			return new Promise((resolve, reject)=>{
 			const { connection, errorHandler } = deps				
-				connection.query('Insert Into tb_noticias (tb_admins_idtb_admins, titulo, texto, data_postagem, imagem, excluido) Values(?,?,?,?,?,?)',[tb_admins_idtb_admins, titulo, texto, data_postagem, imagem, excluido],(error,results)=>{
+				connection.query('Insert Into tb_noticias (tb_admins_idtb_admins, titulo, texto, data_postagem, imagem, excluido) Values(?,?,?,NOW(),?,0)',[tb_admins_idtb_admins, titulo, texto, imagem],(error,results)=>{
 					if(error){
 						errorHandler(error,'Falha ao salvar', reject)
 						return false
 					}
-					resolve({noticias: {tb_admins_idtb_admins, titulo, texto, data_postagem, excluido, id: results.insertId}})
+					resolve({noticias: {tb_admins_idtb_admins, titulo, texto, id: results.insertId}})
 				})
 				
 			})	
