@@ -6,7 +6,7 @@ const admins = deps => {
 		all: () => {
 			return new Promise((resolve, reject)=>{
 			const { connection, errorHandler } = deps
-				connection.query('Select idtb_admins as id, nome, email, excluido from tb_admins',(error,results)=>{
+				connection.query('Select idtb_admins as id, nome, email, excluido from tb_admins WHERE excluido = 0',(error,results)=>{
 					if(error){
 						errorHandler(error,'Falha ao listar os admins', reject)
 						return false
@@ -44,14 +44,14 @@ const admins = deps => {
 		update: (idtb_admins,nome,senha,email,excluido) => {
 			return new Promise((resolve, reject)=>{
 			const { connection, errorHandler } = deps				
-				connection.query('Update tb_admins set nome = ?, senha = ?, email = ?, excluido = ? Where idtb_admins = ?',[nome,sha1(senha),email,excluido,idtb_admins],(error,results)=>{
+				connection.query('Update tb_admins set nome = ?, senha = ?, email = ?, excluido = 0 Where idtb_adm/ins = ?',[nome,sha1(senha),email,idtb_admins],(error,results)=>{
 
 					if(error || !results.affectedRows){
 						errorHandler(error,'Falha ao atualizar', reject)
 						return false
 					}
 					
-					resolve({admins: {idtb_admins,nome,email,excluido}, affectedRows: results.affectedRows})
+					resolve({admins: {idtb_admins,nome,email}, affectedRows: results.affectedRows})
 				})
 				
 			})	
@@ -60,7 +60,7 @@ const admins = deps => {
 	  	del: (idtb_admins) => {
 				return new Promise((resolve, reject)=>{
 				const { connection, errorHandler } = deps				
-					connection.query('Delete From tb_admins Where idtb_admins = ?',[idtb_admins],(error,results)=>{
+					connection.query('UPDATE tb_admins SET excluido = 1 Where idtb_admins = ?',[idtb_admins],(error,results)=>{
 						if(error || !results.affectedRows){
 							errorHandler(error,'Falha ao remover', reject)
 							return false

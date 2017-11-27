@@ -97,10 +97,10 @@ const routes = (server) => {
 	}
 	const putAdmins = async (req,res,next)=>{
 		
-		const { idtb_admins,nome,senha,email,excluido } = req.params
+		const { id_admins,nome,senha,email,excluido } = req.params
 		
 		try{
-			res.send(await db.empregos().admins(idtb_admins,nome,senha,email,excluido))
+			res.send(await db.admins().update(id_admins,nome,senha,email,excluido))
 		}catch(error){
 			res.send(error)
 		}	
@@ -109,10 +109,10 @@ const routes = (server) => {
 
 	const delAdmins = async (req,res,next)=>{
 		
-		const { idtb_admins } = req.params
+		const { id_admins } = req.params
 		
 		try{
-			res.send(await db.admins().del(idtb_admins))
+			res.send(await db.admins().del(id_admins))
 		}catch(error){
 			res.send(error)
 		}
