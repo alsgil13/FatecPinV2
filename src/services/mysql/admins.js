@@ -24,7 +24,7 @@ const admins = deps => {
 						errorHandler(error,'lalalalalalalal', reject)
 						return false
 					}
-					resolve({admins: results})
+					resolve({admins: results[0]})
 				})
 			})			
 		},
