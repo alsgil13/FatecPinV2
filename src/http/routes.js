@@ -10,7 +10,8 @@ const routes = (server) => {
 		
 		//console.log(db.noticias())
 		try{
-			res.send(await db.noticias().all())
+			const filter = req.query		
+			res.send(await db.noticias().all(filter))
 		}catch(error){
 			res.send(error)
 		}
@@ -69,7 +70,8 @@ const routes = (server) => {
 		
 		
 		try{
-			res.send(await db.admins().all())
+			const filter = req.query		
+			res.send(await db.admins().all(filter))
 		}catch(error){
 			res.send(error)
 		}
@@ -127,7 +129,8 @@ const routes = (server) => {
 		
 		
 		try{
-			res.send(await db.empregos().all())
+			const filter = req.query		
+			res.send(await db.empregos().all(filter))
 		}catch(error){
 			res.send(error)
 		}
@@ -185,7 +188,8 @@ const routes = (server) => {
 	const getEmpresas = async (req, res, next) => {
 		
 		try{
-			res.send(await db.empresas().all())
+			const filter = req.query		
+			res.send(await db.empresas().all(filter))
 		}catch(error){
 			res.send(error)
 		}
@@ -241,7 +245,8 @@ const routes = (server) => {
 	const getEventos = async (req, res, next) => {
 		
 		try{
-			res.send(await db.eventos().all())
+			const filter = req.query		
+			res.send(await db.eventos().all(filter))
 		}catch(error){
 			res.send(error)
 		}
@@ -365,17 +370,12 @@ const routes = (server) => {
 
 // Dispositivo
 	const postDispositivo = async (req, res, next) => {
-		const { id_dispositivo } = req.params
-		
+		const { id_dispositivo } = req.params		
 		try{
-			//console.log(db)
-			//res.send(await db.auth().authenticate(email,senha))
 			res.send(await db.dispositivos().save(id_dispositivo))
 		}catch(error){
 			res.send(error)
-			console.log(error)
-		}
-		
+		}		
 		next()			
 	}
 

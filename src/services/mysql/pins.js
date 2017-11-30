@@ -3,18 +3,20 @@ const pins = deps => {
 	return {
 		all: (filter) => {			
 			return new Promise((resolve, reject)=>{
-			const { connection, errorHandler } = deps	
+			const { connection, errorHandler, paginate } = deps	
+				const search = (filter.search && filter.search.length >= 3) ? "%" + filter.search + "%" : "%%";
 				const start = filter.start ? parseInt(filter.start) : 0;
-				const limit = filter.limit ? parseInt(filter.limit) : 5; // default value if not setted
+				const limit = filter.limit ? parseInt(filter.limit) : 15; // default value if not setted
 				connection.query(`
-					SELECT p.*, ad.*, (SELECT COUNT(1) FROM tb_pins) as total
+					SELECT SQL_CALC_FOUND_ROWS p.*, ad.*
 					FROM tb_pins as p
 					JOIN tb_admins as ad
 					ON p.tb_admins_idtb_admins = ad.idtb_admins
-					WHERE p.excluido = 0
+					WHERE p.excluido = 0 AND p.descricao LIKE ?			
 					ORDER BY idtb_pins DESC
-					LIMIT ?,?
-				`, [start,limit], (error,results)=>{
+					LIMIT ?,?; SELECT FOUND_ROWS() as total
+				`, [search,start,limit], (error,output)=>{	
+					const results = output[0]											
 					if(error && !results.length){
 						errorHandler(error,'Falha ao listar os pins', reject)
 						return false
@@ -38,20 +40,10 @@ const pins = deps => {
 					if(!results.length > 0) {
 						resolve({pins: final})
 						return false;
-					}
-
-					const total = results[0].total
-					const totalPages = Math.ceil(total / limit)
-					const currentPage = Math.floor(start / limit) + 1
-
-					resolve ({					
-						totalResults: total,
-						totalPages: totalPages,
-						currentPage: currentPage,
-						nextPage: (limit * currentPage) >= total ? null : process.env.BASE_URL + '/public/pins?limit=' + limit + '&start=' + limit * currentPage,
-						previousPage: (start - limit) < 0 ? null : process.env.BASE_URL + '/public/pins?limit=' + limit + '&start=' + (start - limit),						
+					}					
+					resolve(paginate('/public/pins', output[1][0].total, start, limit, {
 						pins: final
-					})
+					}))
 					
 				})
 			})			

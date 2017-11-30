@@ -2,25 +2,32 @@
 
 const noticias = deps => {
 	return {
-		all: () => {
+		all: (filter) => {
 			return new Promise((resolve, reject)=>{
-			
-			const { connection, errorHandler } = deps
-				//LEFT JOIN ???			
-				connection.query('Select n.idtb_noticias as id, n.titulo, n.texto, '+
-					'n.data_postagem, n.imagem, n.excluido, ad.* from tb_noticias as n '+
-					'JOIN tb_admins as ad ON n.tb_admins_idtb_admins = ad.idtb_admins ' + 
-					'WHERE n.excluido = 0',(error,results)=>{
-					if(error){
+			const search = (filter.search && filter.search.length >= 3) ? "%" + filter.search + "%" : "%%";
+			const start = filter.start ? parseInt(filter.start) : 0;
+			const limit = filter.limit ? parseInt(filter.limit) : 15; // default value if not setted
+			const { connection, errorHandler, paginate } = deps		
+					
+				connection.query(`
+					SELECT SQL_CALC_FOUND_ROWS n.*, ad.*
+					FROM tb_noticias as n
+					JOIN tb_admins as ad
+					ON n.tb_admins_idtb_admins = ad.idtb_admins
+					WHERE n.excluido = 0 &&
+						(n.titulo LIKE ? || n.texto LIKE ?)
+					ORDER BY idtb_noticias DESC
+					LIMIT ?,?; SELECT FOUND_ROWS() as total
+					`, [search,search,start,limit], (error,output)=>{		
+					const results = output[0]
+					if(error && !results.length){
 						errorHandler(error,'Falha ao listar as noticias', reject)
 						return false
-					}
-					//console.log(results)
+					}	
 					var final = []
 					for(index in results){
 						var result = results[index]
-						resultado ={						
-						
+						resultado = {		
 							'id' : result.id,
 							'titulo' : result.titulo,
 							'texto' : result.texto,
@@ -36,8 +43,13 @@ const noticias = deps => {
 						}
 						final.push(resultado)						
 					}
-				
-					resolve({noticias: final})
+					if(!results.length > 0) {
+						resolve({noticias: final})
+						return false;
+					}	
+					resolve(paginate('/public/noticias', output[1][0].total, start, limit, {
+						noticias: final
+					}))
 				})
 			})			
 		},
@@ -48,7 +60,7 @@ const noticias = deps => {
 				connection.query('Select n.idtb_noticias as id, n.titulo, n.texto, '+
 					'n.data_postagem, n.imagem, n.excluido, ad.* from tb_noticias as n '+
 					'JOIN tb_admins as ad ON n.tb_admins_idtb_admins = ad.idtb_admins ' +
-					'Where idtb_noticias = ?',[id],(error,results)=>{
+					'Where idtb_noticias = ? && excluido = 0',[id],(error,results)=>{
 					if(error){
 						errorHandler(error,'lalalalalalalal', reject)
 						return false
@@ -83,7 +95,6 @@ const noticias = deps => {
 					}
 					resolve({noticias: {id_admins, titulo, texto, id: results.insertId}})
 				})
-				
 			})	
 		},
 		
