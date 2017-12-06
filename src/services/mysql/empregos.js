@@ -27,13 +27,11 @@ const empregos = deps => {
 					for(index in results){
 						var result = results[index]
 						resultado = {		
-							'id' : result.id,
+							'id' : result.idtb_empregos,
 							'titulo' : result.titulo,
 							'texto' : result.texto,
 							'data_postagem': result.data_postagem,
 							'link_vaga': result.link_vaga,
-							'local_evento': result.local_evento,
-							'link_evento': result.link_evento,
 							'excluido': result.emprego_excluido,
 							'admins' : {
 								'id' : result.tb_admins_idtb_admins,
