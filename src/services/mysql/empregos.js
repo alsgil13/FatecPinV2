@@ -1,30 +1,32 @@
 const empregos = deps => {
 	return {
-		all: () => {
-			return new Promise((resolve, reject)=>{
+		all: (filter) => {
+			return new Promise((resolve, reject)=>{		
 
-			const queryEmpregos = 
-			`SELECT idtb_empregos AS id, titulo,texto, data_postagem, 
-			link_vaga, tb_empregos.excluido AS emprego_excluido, 
-			tb_admins.idtb_admins AS id_admin, tb_admins.nome AS admin_nome, 
-			tb_admins.email AS email_admin, tb_empresas.idtb_empresas AS id_empresa, 
-			tb_empresas.nome AS nome_empresa, tb_empresas.email AS email_empresa, cidade, estado 
-			FROM tb_empregos 
-			JOIN tb_admins ON tb_empregos.tb_admins_idtb_admins = tb_admins.idtb_admins 
-			JOIN tb_empresas ON tb_empregos.tb_empresa_idtb_empresa = tb_empresas.idtb_empresas 
-			WHERE tb_empregos.excluido = 0` 	
-			//console.log(queryEmpregos)
-			const { connection, errorHandler } = deps
-				connection.query(queryEmpregos,(error,results)=>{
-					if(error){
+				const search = (filter.search && filter.search.length >= 3) ? "%" + filter.search + "%" : "%%";
+				const start = filter.start ? parseInt(filter.start) : 0;
+				const limit = filter.limit ? parseInt(filter.limit) : 15; // default value if not setted
+				const { connection, errorHandler, paginate } = deps		
+				connection.query(`					
+					SELECT SQL_CALC_FOUND_ROWS emp.*,
+					adm.nome as admin_nome,
+					adm.email as admin_email,
+					comp.*
+					FROM tb_empregos emp
+					JOIN tb_admins adm ON emp.tb_admins_idtb_admins = adm.idtb_admins
+					JOIN tb_empresas comp ON emp.tb_empresa_idtb_empresa = comp.idtb_empresas
+					WHERE emp.excluido = 0 && (emp.titulo LIKE ? || emp.texto LIKE ? || comp.nome LIKE ? || comp.cidade LIKE ?)		
+					LIMIT ?,?; SELECT FOUND_ROWS() as total
+					`,[search, search, search, search, start,limit],(error,output) => {
+					const results = output[0]
+					if(error && !results.length){
 						errorHandler(error,'Falha ao listar as empregos', reject)
 						return false
 					}
 					var final = []
 					for(index in results){
 						var result = results[index]
-						resultado ={						
-						
+						resultado = {		
 							'id' : result.id,
 							'titulo' : result.titulo,
 							'texto' : result.texto,
@@ -34,26 +36,27 @@ const empregos = deps => {
 							'link_evento': result.link_evento,
 							'excluido': result.emprego_excluido,
 							'admins' : {
-								'id' : result.id_admin,
+								'id' : result.tb_admins_idtb_admins,
 								'nome' : result.admin_nome,
-								'email': result.email_admin
+								'email': result.admin_email
 							},
 							'empresa':{
-								'id' : result.id_empresa,
-								'nome':result.nome_empresa,
-								'email':result.email_empresa,
+								'id' : result.idtb_empresas,
+								'nome':result.nome,
+								'email':result.email,
 								'cidade':result.cidade,
 								'estado':result.estado
-
 							}
-
-
 						}
 						final.push(resultado)						
-					}
-
-
-					resolve({empregos: final})
+					}		
+					if(!results.length > 0) {
+						resolve({empregos: final})
+						return false;
+					}	
+					resolve(paginate('/public/empregos', output[1][0].total, start, limit, {
+						empregos: final
+					}))
 				})
 			})			
 		},
