@@ -1,6 +1,10 @@
 
 const pins = deps => {
 	return {
+		/**
+		 * [detalhes de todos os pins]
+		 * @return {[json]}        [detalhes de todos os pins cadastrados]
+		 */
 		all: (filter) => {			
 			return new Promise((resolve, reject)=>{
 			const { connection, errorHandler, paginate } = deps	
@@ -48,6 +52,11 @@ const pins = deps => {
 				})
 			})			
 		},
+		/**
+		 * [pin específico]
+		 * @param  {[json]} id [id do pin na tabela pins]
+		 * @return {[json]}    [todas as informações sobre o pin]
+		 */
 		item: (id) => {
 			return new Promise((resolve, reject)=>{
 			const { connection, errorHandler } = deps
@@ -58,7 +67,7 @@ const pins = deps => {
 					 			  Where idtb_pins = ?`,
 					 [id],(error,results)=>{
 					if(error){
-						errorHandler(error,'lalalalalalalal', reject)
+						errorHandler(error,'Erro ao buscar pin', reject)
 						return false
 					}
 					resultado = {		
@@ -77,6 +86,12 @@ const pins = deps => {
 				})
 			})			
 		},
+		/**
+		 * [Incluir pin]
+		 * @param  {[json]} tb_admins_idtb_admins [id do admin que esta cadastrando o pin]
+		 * @param  {[json]} descricao             [texto do pin]
+		 * @return {[json]}                       [pin inserido]
+		 */
 		save: (tb_admins_idtb_admins, descricao) => {
 			return new Promise((resolve, reject)=>{
 			const { connection, errorHandler } = deps				
@@ -90,6 +105,13 @@ const pins = deps => {
 				
 			})	
 		},
+		/**
+		 * [Altera um pin ]
+		 * @param  {[json]} id_tbpins             [id do pin]
+		 * @param  {[json]} tb_admins_idtb_admins [id do admin que está alterando]
+		 * @param  {[json]} descricao             [texto do pin]
+		 * @return {[json]}                       [Pin alterado]
+		 */
 		update: (id_tbpins,tb_admins_idtb_admins, descricao) => {
 			return new Promise((resolve, reject)=>{
 			const { connection, errorHandler } = deps				
@@ -105,7 +127,11 @@ const pins = deps => {
 				
 			})	
 		},
- 
+	/**
+	 * [Softdel de pin]
+	 * @param  {[json]} idtb_pins [id do pin a ser deletado]
+	 * @return {[json]}           [mensagem de sucesso/erro]
+	 */
   	del: (idtb_pins) => {
 			return new Promise((resolve, reject)=>{
 			const { connection, errorHandler } = deps				

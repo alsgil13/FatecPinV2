@@ -1,5 +1,9 @@
 const eventos = deps => {
 	return {
+		/**
+		 * [Todos os Eventos]
+		 * @return {[json]} [detalhes de todos os eventos cadastrados no banco]
+		 */
 		all: () => {
 			return new Promise((resolve, reject)=>{
 			const { connection, errorHandler } = deps
@@ -42,6 +46,11 @@ const eventos = deps => {
 				})
 			})			
 		},
+		/**
+		 * [Evento especifico]
+		 * @param  {[json]} id [id do evento]
+		 * @return {[json]}    [detalhes do evento]
+		 */
 		item: (id) => {
 			return new Promise((resolve, reject)=>{
 			const { connection, errorHandler } = deps
@@ -79,6 +88,15 @@ const eventos = deps => {
 				})
 			})			
 		},
+		/**
+		 * [Insere evento]
+		 * @param  {[json]} tb_admins_idtb_admins [id do admin que esta incluindo]
+		 * @param  {[json]} titulo                [titulo do evento]
+		 * @param  {[json]} texto                 [texto do evento]
+		 * @param  {[json]} data_evento           [data do evento]
+		 * @param  {[json]} local_evento          [local do envento]
+		 * @return {[json]}                       [evento criado]
+		 */
 		save: (tb_admins_idtb_admins,titulo,texto,data_evento,local_evento) => {
 			return new Promise((resolve, reject)=>{
 			const { connection, errorHandler } = deps				
@@ -92,6 +110,16 @@ const eventos = deps => {
 				
 			})	
 		},
+		/**
+		 * [Altera evento]
+		 * @param  {[json]} idtb_eventos          [id do evento]
+		 * @param  {[json]} tb_admins_idtb_admins [id do admin que está alterando]
+		 * @param  {[json]} titulo                [titulo do evento]
+		 * @param  {[json]} texto                 [texto do evento]
+		 * @param  {[json]} data_evento           [data do evento]
+		 * @param  {[json]} local_evento          [local do evento]
+		 * @return {[json]}                       [evento atualizado]
+		 */
 		update: (idtb_eventos,tb_admins_idtb_admins, titulo,texto, data_evento,local_evento) => {
 			return new Promise((resolve, reject)=>{
 			const { connection, errorHandler } = deps				
@@ -106,7 +134,11 @@ const eventos = deps => {
 				
 			})	
 		},
- 
+		/**
+		 * [SoftDel do evento]
+		 * @param  {[json]} idtb_eventos [id do evento]
+		 * @return {[json]}              [mensagem de sucesso/erro]
+		 */
 	  	del: (idtb_eventos) => {
 			return new Promise((resolve, reject)=>{
 			const { connection, errorHandler } = deps				

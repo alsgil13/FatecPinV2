@@ -2,6 +2,10 @@
 
 const noticias = deps => {
 	return {
+		/**
+		 * [Todas as noticias]
+		 * @return {[json]}        [detalhes de todas as noticias do banco]
+		 */
 		all: (filter) => {
 			return new Promise((resolve, reject)=>{
 			const search = (filter.search && filter.search.length >= 3) ? "%" + filter.search + "%" : "%%";
@@ -53,7 +57,11 @@ const noticias = deps => {
 				})
 			})			
 		},
-		
+		/**
+		 * [Noticias específica]
+		 * @param  {[json]} id [id da noticia]
+		 * @return {[json]}    [json com detlhes da notícia]
+		 */
 		item: (id) => {
 			return new Promise((resolve, reject)=>{
 			const { connection, errorHandler } = deps
@@ -62,7 +70,7 @@ const noticias = deps => {
 					'JOIN tb_admins as ad ON n.tb_admins_idtb_admins = ad.idtb_admins ' +
 					'Where idtb_noticias = ? && excluido = 0',[id],(error,results)=>{
 					if(error){
-						errorHandler(error,'lalalalalalalal', reject)
+						errorHandler(error,'Erro ao buscar noticia', reject)
 						return false
 					}
 						var result=results[0]
@@ -84,7 +92,14 @@ const noticias = deps => {
 				})
 			})			
 		},
-
+		/**
+		 * [Adiciona Noticia]
+		 * @param  {[json]} id_admins [id do administrador]
+		 * @param  {[json]} titulo    [titulo da noticia]
+		 * @param  {[json]} texto     [texto da noticia]
+		 * @param  {[json]} imagem    [imagem da noticia]
+		 * @return {[json]}           [noticia criada]
+		 */
 		save: (id_admins, titulo, texto, imagem) => {
 			return new Promise((resolve, reject)=>{
 			const { connection, errorHandler } = deps				
@@ -97,7 +112,15 @@ const noticias = deps => {
 				})
 			})	
 		},
-		
+		/**
+		 * [Altera noticia]
+		 * @param  {[json]} idtb_noticias         [id da noticia]
+		 * @param  {[json]} tb_admins_idtb_admins [id do admin que está alterando ]
+		 * @param  {[json]} titulo                [titulo da noticia]
+		 * @param  {[json]} texto                 [texto da noticia]
+		 * @param  {[json]} imagem                [imagem da noticia]
+		 * @return {[json]}                       [noticia atualizada]
+		 */
 		update: (idtb_noticias,tb_admins_idtb_admins, titulo, texto, imagem) => {
 			return new Promise((resolve, reject)=>{
 			const { connection, errorHandler } = deps				
@@ -113,7 +136,11 @@ const noticias = deps => {
 				
 			})	
 		},
- 
+ 		/**
+ 		 * [Sofdel de notícia]
+ 		 * @param  {[json]} idtb_noticias [id da noticia]
+ 		 * @return {[json]}               [mensagem de sucesso/erro]
+ 		 */
  		del: (idtb_noticias) => {
 			return new Promise((resolve, reject)=>{
 			const { connection, errorHandler } = deps				

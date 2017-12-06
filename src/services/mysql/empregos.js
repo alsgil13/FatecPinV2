@@ -1,5 +1,9 @@
 const empregos = deps => {
 	return {
+		/**
+		 * [Todos os empregos]
+		 * @return {[json]}        [detalhes de todos os empregos]
+		 */
 		all: (filter) => {
 			return new Promise((resolve, reject)=>{		
 
@@ -58,7 +62,11 @@ const empregos = deps => {
 				})
 			})			
 		},
-	
+		/**
+		 * [Emprego específico]
+		 * @param  {[json]} id [id do emprego]
+		 * @return {[json]}    [detalhes do eprego]
+		 */
 		item: (id) => {
 			return new Promise((resolve, reject)=>{
 			const { connection, errorHandler } = deps
@@ -75,7 +83,7 @@ const empregos = deps => {
 
 				connection.query(queryEmpregos,[id],(error,results)=>{
 					if(error){
-						errorHandler(error,'lalalalalalalal', reject)
+						errorHandler(error,'Erro ao buscar emprego', reject)
 						return false
 					}
 					var result = results[0]
@@ -106,6 +114,15 @@ const empregos = deps => {
 				})
 			})			
 		},
+		/**
+		 * [Insere emprego]
+		 * @param  {[json]} tb_empresa_idtb_empresa [id da empresa que oferece a vaga]
+		 * @param  {[json]} tb_admins_idtb_admins   [id do admin que está cadastrando]
+		 * @param  {[json]} titulo                  [titulo da vaga]
+		 * @param  {[json]} texto                   [descrição da vaga]
+		 * @param  {[json]} link_vaga               [link da vaga]
+		 * @return {[json]}                         [vaga criada]
+		 */
 		save: (tb_empresa_idtb_empresa,tb_admins_idtb_admins, titulo,texto, link_vaga) => {
 			return new Promise((resolve, reject)=>{
 			const { connection, errorHandler } = deps
@@ -123,6 +140,16 @@ const empregos = deps => {
 				
 			})	
 		},
+		/**
+		 * [Altera Emprego]
+		 * @param  {[json]} idtb_empregos           [id do emprego]
+		 * @param  {[json]} tb_empresa_idtb_empresa [id da empresa]
+		 * @param  {[json]} tb_admins_idtb_admins   [id do admin que está alterando]
+		 * @param  {[json]} titulo                  [titulo do emprego]
+		 * @param  {[json]} texto                   [Descrição do emprego]
+		 * @param  {[json]} link_vaga               [link da vaga]
+		 * @return {[json]}                         [vaga alterada]
+		 */
 		update: (idtb_empregos,tb_empresa_idtb_empresa,tb_admins_idtb_admins, titulo,texto, link_vaga) => {
 			return new Promise((resolve, reject)=>{
 			//console.log(idtb_eventos,tb_admins_idtb_admins, titulo,texto, data_postagem,data_evento,local_evento,link_evento, excluido)	
@@ -139,7 +166,11 @@ const empregos = deps => {
 				
 			})	
 		},
- 
+ 		/**
+ 		 * [Softdel de Vaga]
+ 		 * @param  {[json]} idtb_empregos [id do emprego]
+ 		 * @return {[json]}               [mensagem de sucesso/erro]
+ 		 */
 	  	del: (idtb_empregos) => {
 			return new Promise((resolve, reject)=>{
 			const { connection, errorHandler } = deps				
