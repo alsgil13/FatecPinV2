@@ -3,6 +3,10 @@ const sha1 = require('sha1')
 
 const admins = deps => {
 	return {
+		/**
+		 * [Todos os Administradores]
+		 * @return {[json]} [detalhes de todos os admins cadastrados no banco, exceto senha]
+		 */
 		all: () => {
 			return new Promise((resolve, reject)=>{
 			const { connection, errorHandler } = deps
@@ -15,36 +19,55 @@ const admins = deps => {
 				})
 			})			
 		},
-
+		/**
+		 * [Adminstrador específico]
+		 * @param  {[json]} id [Id do administrador]
+		 * @return {[json]}    [detalhes do administrador]
+		 */
 		item: (id) => {
 			return new Promise((resolve, reject)=>{
 			const { connection, errorHandler } = deps
 				connection.query('Select idtb_admins as id, nome, email, excluido from tb_admins Where idtb_admins = ?',[id],(error,results)=>{
 					if(error){
-						errorHandler(error,'lalalalalalalal', reject)
+						errorHandler(error,'Erro ao buscar Admnistrador', reject)
 						return false
 					}
 					resolve({admins: results[0]})
 				})
 			})			
 		},
-		save: (nome,senha,email,excluido) => {
+		/**
+		 * [Incluir Adminstrador]
+		 * @param  {[json]} nome     [nome do Administrador]
+		 * @param  {[json]} senha    [senha do administrador]
+		 * @param  {[json]} email    [email do administrador]
+		 * @return {[json]}          [Administradir Criado]
+		 */
+		save: (nome,senha,email) => {
 			return new Promise((resolve, reject)=>{
 			const { connection, errorHandler } = deps				
-				connection.query('Insert Into tb_admins (nome,senha,email,excluido) Values(?,?,?,?)',[nome,sha1(senha),email,excluido],(error,results)=>{
+				connection.query('Insert Into tb_admins (nome,senha,email,excluido) Values(?,?,?,0)',[nome,sha1(senha),email],(error,results)=>{
 					if(error){
 						errorHandler(error,'Falha ao salvar', reject)
 						return false
 					}
-					resolve({admins: {nome,email,excluido, id: results.insertId}})
+					resolve({admins: {nome, email, id: results.insertId}})
 				})
 				
 			})	
 		},
-		update: (idtb_admins,nome,senha,email,excluido) => {
+		/**
+		 * [Atualizar administrador]
+		 * @param  {[json]} idtb_admins [id do administrador]
+		 * @param  {[json]} nome     [nome do administrador]
+		 * @param  {[json]} senha    [senha do administrador]
+		 * @param  {[json]} email    [email do administrador]
+		 * @return {[json]}          [Administradir atualizado]
+		 */
+		update: (idtb_admins,nome,senha,email) => {
 			return new Promise((resolve, reject)=>{
 			const { connection, errorHandler } = deps				
-				connection.query('Update tb_admins set nome = ?, senha = ?, email = ?, excluido = 0 Where idtb_adm/ins = ?',[nome,sha1(senha),email,idtb_admins],(error,results)=>{
+				connection.query('Update tb_admins set nome = ?, senha = ?, email = ?, excluido = 0 Where idtb_admins = ?',[nome,sha1(senha),email,idtb_admins],(error,results)=>{
 
 					if(error || !results.affectedRows){
 						errorHandler(error,'Falha ao atualizar', reject)
@@ -56,7 +79,11 @@ const admins = deps => {
 				
 			})	
 		},
- 
+ 		/**
+ 		 * [Softdel do Ad inistrador]
+ 		 * @param  {[json]} idtb_admins [id do administrador]
+ 		 * @return {[json]}             [mensagem de sucesso/erro]
+ 		 */
 	  	del: (idtb_admins) => {
 				return new Promise((resolve, reject)=>{
 				const { connection, errorHandler } = deps				

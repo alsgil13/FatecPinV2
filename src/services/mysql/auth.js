@@ -5,6 +5,12 @@ const jwt = require('jsonwebtoken')
 
 const auth = deps => {
 	return {
+		/**
+		 * [Autenticação]
+		 * @param  {[json]} email [email do usuário]
+		 * @param  {[json]} senha [senha do usuário]
+		 * @return {[json]}       [token de autenticação]
+		 */
 		authenticate: (email,senha) => {
 			return new Promise((resolve, reject)=>{
 			const { connection, errorHandler } = deps
